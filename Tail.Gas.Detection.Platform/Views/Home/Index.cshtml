@@ -1,0 +1,78 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<div class="container">
+
+    <div id="Content">
+        <div class="Content-Left1" style="    height: 260px;
+    width: 30%;
+    margin-left: 100px;
+    margin-top: 50px;">
+            <img src="@ViewBag.ApplicationPath/Assets/sea-modules/app/app/1.0.0/标志.png" width="483px" />
+        </div>
+        <div class="Content-Left2" style="    margin-left: 230px;">
+            <div role="form" class="form-horizontal">
+                <div class="form-group">
+                    <label for="name" class="col-sm-2 control-label">用户名称：</label>
+                    <div class="col-sm-10">
+                        <input type="text" id="username" class="form-control" placeholder="用户名称">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="usertype" class="col-sm-2 control-label">类型：</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" id="usertype" required>
+                            <option>管理员</option>
+                            <option>监管人员</option>
+                            <option>顾客</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="col-sm-2 control-label">密码：</label>
+                    <div class="col-sm-10">
+                        <input type="password" id="password" class="form-control" placeholder="密码" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="validateCode" class="col-sm-2 control-label">
+                        验证码：
+                    </label>
+                    <div class="col-sm-7">
+                        <input type="text" id="validateCode" class="form-control" placeholder="验证码" required>
+                    </div>
+                    <div class="col-sm-3">
+                        <input class="form-control" style="background-color:gray;" type="button" id="code" />
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-2">
+                        <button type="submit" id="login" class="btn btn-default">登录</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="Content-Main">
+            <p class="lead">北京中元联合汽车科技有限公司是一家国际化高新技术企业。在北京设立研发中心，采用世界先进的技术，制造出符合中国国情的高标准化的机动车（柴汽油车）尾气后处理产品。
+公司引进欧洲技术和核心部件，在中国实现了产品的国产化，公司具有完整的技术、研发、销售和售后服务团队，具有完善的质量保证体系和发明专利证书，使用了世界领先的技术，无售后烦恼。在排放业务领域（北京、南京、山东、杭州柴油车“黄改绿”期间）拥有丰富的改造经验，深受客户好评。
+公司秉承“客户的满意，是中元人永远的追求”的企业经营理念和“尾气治理行业的领导者与开创者，做到真正的国际化品牌”的企业宗旨，与时俱进，跨越发展。
+</p>
+            @*<p class="lead">杭州携蓝环保科技有限公司致力于柴油机尾气净化技术的研究以及相关产品的市场推广。是中华环保联合会常务理事单位。我司独创研发的无需添加剂主动再生技术型高效柴油机尾气净化器（DPF+DOC），填补同类产品技术空白，达到国内外技术领先水平，净化PM、CO、HC等污染物的净化效果。完全满足国Ⅳ、国Ⅴ排放标准。产品荣获中国交通企业管理协会“交通运输企业节能环保推荐产品”称号。</p>*@
+            @*<p class="lead">宁波市格润环保科技有限公司是一家由海外博士团队创立的高新技术企业，专业从事汽油、柴油和天然气发动机尾气后处理产品的研发和产业化，产品应用于汽车、摩托车、通机、工程机械和船用动力等。公司是国家知识产权优势企业、高新技术企业、创新型试点企业、国际科技合作基地等。<br />
+                我公司产品WAT型尾气净化器是有氧化型催化器、微粒捕集过滤器、高温清理装置与电子控制单元组成。产品过滤效果高达95%，使柴油车排放标准符合国4、国5标准。
+</p>*@
+        </div>
+        <div class="Clear"><!--如何你上面用到float,下面布局开始前最好清除一下。--></div>
+
+
+    </div>
+    <script type="text/javascript">
+        seajs.use(['$', 'login'], function ($, login) {;
+            $(document).ready(function () {
+                login.init();
+
+            });
+        });
+    </script>
