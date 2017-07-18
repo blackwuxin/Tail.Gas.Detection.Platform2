@@ -162,6 +162,7 @@
     <Compile Include="Authorize\AuthorizeFilterAttribute.cs" />
     <Compile Include="Bussiness\monitor.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\MapController.cs" />
     <Compile Include="Controllers\CarInfoController.cs" />
     <Compile Include="Controllers\CarStatusInfoController.cs" />
     <Compile Include="Controllers\CommonDataController.cs" />
@@ -269,6 +270,7 @@
     <Content Include="Assets\sea-modules\app\common\1.0.0\dialog.js" />
     <Content Include="Assets\sea-modules\app\common\1.0.0\utils.js" />
     <Content Include="Assets\sea-modules\app\importcarinfo\index.js" />
+    <Content Include="Assets\sea-modules\app\map\index.js" />
     <Content Include="Assets\sea-modules\extend\bootstrapdialog\3.3.2\bootstrap-dialog.css" />
     <Content Include="Assets\sea-modules\extend\bootstrapdialog\3.3.2\bootstrap-dialog.js" />
     <Content Include="Assets\sea-modules\extend\bootstrap\3.3.2\css\bootstrap.css" />
@@ -388,6 +390,7 @@
     <Content Include="Views\CarInfo\Detail.cshtml" />
     <Content Include="Views\ImportCarInfo\Index.cshtml" />
     <Content Include="Views\Home\Forbidden.cshtml" />
+    <Content Include="Views\Map\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

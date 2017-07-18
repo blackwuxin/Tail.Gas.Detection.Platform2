@@ -24,7 +24,8 @@
             "carstatusinfo": "app/carstatusinfo/1.0.0/index",
             "carinfo": "app/carinfo/edit",
             "login": "app/login/index",
-            "importcarinfo": "app/importcarinfo/index"
+            "importcarinfo": "app/importcarinfo/index",
+            'map':'app/map/index'
         },
         paths: {
             "sea": "sea-modules",

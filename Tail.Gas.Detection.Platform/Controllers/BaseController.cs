@@ -63,6 +63,8 @@ namespace Tail.Gas.Detection.Platform.Controllers
                    url.Contains("/carstatusinfo/index")||url.Equals("/myapp/carstatusinfo") ? activeClass : "", ApplicationPath));
                 sbMenus.Append(string.Format("<li role='presentation' {0}><a href='{1}/carstatusinfo/error' target=''>状态异常</a></li>",
                    url.Contains("/carstatusinfo/error") ? activeClass : "", ApplicationPath));
+                sbMenus.Append(string.Format("<li role='presentation' {0}><a href='{1}/map' target=''>地图</a></li>",
+                 url.Contains("/map") ? activeClass : "", ApplicationPath));
             }
             if ("管理员".Equals(System.Web.HttpContext.Current.Session["usertype"]))
             {
