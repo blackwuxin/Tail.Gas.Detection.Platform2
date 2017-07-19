@@ -25,7 +25,8 @@
             "carinfo": "app/carinfo/edit",
             "login": "app/login/index",
             "importcarinfo": "app/importcarinfo/index",
-            'map':'app/map/index'
+            'map': 'app/map/index',
+            'BMap': 'http://api.map.baidu.com/api?v=2.0&ak=q2HUo15ZyO2CB7fZ90n0p5gxFVRGOmZa'
         },
         paths: {
             "sea": "sea-modules",

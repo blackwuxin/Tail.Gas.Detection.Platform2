@@ -18,33 +18,14 @@ namespace Tail.Gas.Detection.Platform.Controllers
         {
             return View();
         }
-        
-        public string Get(string carno)
-        {
-            try
-            {
-                CarInfo carinfo =  CarInfoDao2.GetCardInfoByCarNo(carno);
 
-                JObject joRow = new JObject();
-                joRow["NO"] = carinfo.NO;
-                joRow["Color"] = carinfo.Color;
-                joRow["Category"] = carinfo.Category;
-                joRow["Belong"] = carinfo.Belong;
-                joRow["OriginalEmissionValues"] = carinfo.OriginalEmissionValues;
-                joRow["ProductModel"] = carinfo.ProductModel;
-                joRow["ModifiedCompany"] = carinfo.ModifiedCompany;
-                joRow["UserInfo"] = carinfo.UserInfo;
-                joRow["IndividualCompany"] = carinfo.IndividualCompany;
-                joRow["Telphone"] = carinfo.Telphone;
-                joRow["ModifiedTime"] = carinfo.ModifiedTime;
-                return joRow.ToString();
-                 
-            }
-            catch (Exception ex)
-            {
-                return "";
-            }
-            
+        public string query(string Belong)
+        {
+            JObject joResult = new JObject();
+            JArray messageList = new JArray();
+            CarStatusInfoDao2.GetMapList(Belong, ref messageList);
+            joResult["messages"] = messageList;
+            return joResult.ToString();
         }
 
     }
