@@ -37,11 +37,13 @@
                         var temperatureAfter = message.TemperatureAfter;
                         var carno = message.CarNo;
                         var sensornum = message.SensorNum;
+                        var data_lasttime = message.Data_LastChangeTime;
 
                         data_info.push([lng, lat, '车牌 : ' + carno +
                             (temperatureBefore > 0 ? '<br>排气温度 : ' + temperatureBefore + '度' : '') +
                             (temperatureAfter > 0 ? '<br>再生温度 : ' + temperatureAfter + '度' : '') +
-                             (sensornum > 0 ? '<br>压力 ： ' + sensornum + 'Kpa' : '')
+                             (sensornum > 0 ? '<br>压力 : ' + sensornum + 'Kpa' : '') +
+                             '<br>时间 : ' + data_lasttime
                         ]);
                         }   
                     var pointArr = [];
@@ -88,24 +90,24 @@
         map.addControl(navigationControl);
         map.enableScrollWheelZoom(true);
 
-        var data_info = [
-            [126.5424530000, 45.8074620000, '车牌：黑A68411<br>排气温度：104度<br>再生温度：143度<br>压力：3Kpa'],
-            [126.5354110000, 45.8027370000, '车牌：黑AC1361<br>排气温度：120度<br>再生温度：153度<br>压力：4Kpa'],
-            [126.5601320000, 45.8087680000, '车牌：黑LC1322<br>排气温度：101度<br>再生温度：150度<br>压力：5Kpa'],
-        ];
-        var pointArr = [];
-        for (var i = 0; i < data_info.length; i++) {
-            var ggPoint = new BMap.Point(data_info[i][0], data_info[i][1]);
-            pointArr.push(ggPoint);
-        }
-        for (var i = 0; i < pointArr.length; i++) {
-            var marker = new BMap.Marker(pointArr[i]);
-            map.addOverlay(marker);
-            map.setCenter(pointArr[i]);
-            var content = data_info[i][2];
+        //var data_info = [
+        //    [126.5424530000, 45.8074620000, '车牌：黑A68411<br>排气温度：104度<br>再生温度：143度<br>压力：3Kpa'],
+        //    [126.5354110000, 45.8027370000, '车牌：黑AC1361<br>排气温度：120度<br>再生温度：153度<br>压力：4Kpa'],
+        //    [126.5601320000, 45.8087680000, '车牌：黑LC1322<br>排气温度：101度<br>再生温度：150度<br>压力：5Kpa'],
+        //];
+        //var pointArr = [];
+        //for (var i = 0; i < data_info.length; i++) {
+        //    var ggPoint = new BMap.Point(data_info[i][0], data_info[i][1]);
+        //    pointArr.push(ggPoint);
+        //}
+        //for (var i = 0; i < pointArr.length; i++) {
+        //    var marker = new BMap.Marker(pointArr[i]);
+        //    map.addOverlay(marker);
+        //    map.setCenter(pointArr[i]);
+        //    var content = data_info[i][2];
 
-            addClickHandler(content, marker);
-        }
+        //    addClickHandler(content, marker);
+        //}
     }
 
 
@@ -128,9 +130,9 @@
     }
 
     initMap();
-    //query();
-    //setInterval(function () {
-    //    query();
-    //}, 6000);
+    query();
+    setInterval(function () {
+        query();
+    }, 60000);
    
 });
