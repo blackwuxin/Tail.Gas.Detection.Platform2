@@ -277,6 +277,49 @@ namespace Tail.Gas.Detection.Platform.Dao
 
         }
 
+        public static void GetMapList2(string Belong, ref JArray messagelist)
+        {
+            try
+            {
+                StringBuilder whereCondition = new StringBuilder();
+                StringBuilder sbSql = new StringBuilder();
+                sbSql.Append(string.Format(SQL_MAP_TEST, whereCondition));
+                Dictionary<string, JObject> dic = new Dictionary<string, JObject>();
+
+                using (cardb2Entities1 cardb = new cardb2Entities1())
+                {
+                    var query = cardb.Database.SqlQuery<CarStatus>(sbSql.ToString());
+                    foreach (var item in query)
+                    {
+                        JObject joRow = new JObject();
+                        joRow["CarNo"] = item.CarNo;
+                        joRow["Color"] = item.Color;
+                        joRow["TemperatureBefore"] = item.TemperatureBefore;
+                        joRow["TemperatureAfter"] = (item.TemperatureAfter == null ? 0 : item.TemperatureAfter);
+                        joRow["SensorNum"] = item.SensorNum;
+                        joRow["SystemStatus"] = item.SystemStatus;
+                        joRow["Data_LastChangeTime"] = String.Format("{0:yyyy-MM-dd HH:mm}", item.Data_LastChangeTime);
+                        joRow["PositionXDegree"] = item.PositionXDegree;
+                        joRow["PositionXM"] = item.PositionXM;
+                        joRow["PositionXS"] = item.PositionXS;
+                        joRow["PositionYDegree"] = item.PositionYDegree;
+                        joRow["PositionYM"] = item.PositionYM;
+                        joRow["PositionYS"] = item.PositionYS;
+
+                        messagelist.Add(joRow);
+                    }
+
+
+       
+                }
+                logger.Info("GetMapList Success");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.ToString());
+            }
+
+        }
         public class CarStatus
         {
             public string CarNo{get;set;}
@@ -320,6 +363,13 @@ namespace Tail.Gas.Detection.Platform.Dao
                                           ,[PositionYS]
 	                                       from CTE
                                       where 1=1 {0}";
+        private const string SQL_MAP_TEST = @" select CarNo,Color,TemperatureBefore,TemperatureAfter,SensorNum,SystemStatus,Data_LastChangeTime,EngineSpeed
+                                            ,[PositionXDegree]
+                                          ,[PositionXM]
+                                          ,[PositionXS]
+                                          ,[PositionYDegree]
+                                          ,[PositionYM]
+                                          ,[PositionYS] from [CarStatusInfo] where carno in('黑LC1361')  and Data_LastChangeTime > '2017-08-05 00:00:00' ";
 
     }
 }

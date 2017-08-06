@@ -270,6 +270,7 @@
     <Content Include="Assets\sea-modules\app\common\1.0.0\dialog.js" />
     <Content Include="Assets\sea-modules\app\common\1.0.0\utils.js" />
     <Content Include="Assets\sea-modules\app\importcarinfo\index.js" />
+    <Content Include="Assets\sea-modules\app\map\map2.js" />
     <Content Include="Assets\sea-modules\app\map\index.js" />
     <Content Include="Assets\sea-modules\extend\bootstrapdialog\3.3.2\bootstrap-dialog.css" />
     <Content Include="Assets\sea-modules\extend\bootstrapdialog\3.3.2\bootstrap-dialog.js" />
@@ -391,6 +392,7 @@
     <Content Include="Views\ImportCarInfo\Index.cshtml" />
     <Content Include="Views\Home\Forbidden.cshtml" />
     <Content Include="Views\Map\Index.cshtml" />
+    <Content Include="Views\Map\map2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -19,11 +19,23 @@ namespace Tail.Gas.Detection.Platform.Controllers
             return View();
         }
 
+        public ActionResult map2()
+        {
+            return View("map2");
+        }
         public string query(string Belong)
         {
             JObject joResult = new JObject();
             JArray messageList = new JArray();
             CarStatusInfoDao2.GetMapList(Belong, ref messageList);
+            joResult["messages"] = messageList;
+            return joResult.ToString();
+        }
+        public string query2(string Belong)
+        {
+            JObject joResult = new JObject();
+            JArray messageList = new JArray();
+            CarStatusInfoDao2.GetMapList2(Belong, ref messageList);
             joResult["messages"] = messageList;
             return joResult.ToString();
         }
