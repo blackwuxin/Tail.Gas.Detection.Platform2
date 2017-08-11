@@ -228,6 +228,6 @@
     query();
     setInterval(function () {
         query();
-    }, 60000);
+    }, 6000);
    
 });

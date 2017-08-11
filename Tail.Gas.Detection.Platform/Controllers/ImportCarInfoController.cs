@@ -44,8 +44,8 @@ namespace Tail.Gas.Detection.Platform.Controllers
                var file = Request.Files[0];
                filepath = System.AppDomain.CurrentDomain.BaseDirectory + Guid.NewGuid() + ".xls";
                file.SaveAs(filepath);
-               string connString = "server = (local); uid = sa; pwd = sa; database = cardb";
-               //string connString = "server = 223.167.85.2,45118; uid = sa; pwd = sa; database = cardb";
+               string connString = "server = (local); uid = sa; pwd = sa; database = cardb2";
+              // string connString = "server = 223.167.85.2,45118; uid = sa; pwd = sa; database = cardb2";
                TransferData(filepath, "CarInfo", connString);
                joResult["result"] = 0;
             }
