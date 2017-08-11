@@ -4,7 +4,7 @@
     //var BMap = require('BMap');
     var JSON = require('json');
     var belong = '哈尔滨';
-    var lastpoint = "";
+    var lastpoint = localStorage.getItem('lastpoint');
     var query = function () {
         $.ajax({
             type: "get",
@@ -17,7 +17,7 @@
             success: function (res) {
                 console.log(res);
                 if (res.messages) {
-                    map.clearOverlays()
+
                     var data_info = [];
                     for (var i = 0, l = res.messages.length; i < l; i++) {
                         var message = res.messages[i];
@@ -29,11 +29,17 @@
                         var carno = message.CarNo;
                         var sensornum = message.SensorNum;
                         var data_lasttime = message.Data_LastChangeTime;
+                        //var point = [lng, lat, '车牌 : ' + carno +
+                        //    (temperatureBefore > 0 ? '<br>排气温度 : ' + temperatureBefore + '度' : '') +
+                        //    (temperatureAfter > 0 ? '<br>再生温度 : ' + temperatureAfter + '度' : '') +
+                        //     (sensornum > 0 ? '<br>压力 : ' + sensornum + 'Kpa' : '') +
+                        //     '<br>时间 : ' + data_lasttime
+                        //];
                         var point = [lng, lat, '车牌 : ' + carno +
-                            (temperatureBefore > 0 ? '<br>排气温度 : ' + temperatureBefore + '度' : '') +
-                            (temperatureAfter > 0 ? '<br>再生温度 : ' + temperatureAfter + '度' : '') +
-                             (sensornum > 0 ? '<br>压力 : ' + sensornum + 'Kpa' : '') +
-                             '<br>时间 : ' + data_lasttime
+                         '<br>排气温度 : ' + temperatureBefore + '度' +
+                         '<br>再生温度 : ' + temperatureAfter + '度' +
+                         '<br>压力 : ' + sensornum + 'Kpa' +
+                          '<br>时间 : ' + data_lasttime
                         ];
 
                         if ((message.PositionXDegree === 0 && message.PositionXM === 0 && message.PositionXS === 0)
@@ -42,12 +48,13 @@
                             || message.PositionYM > 60 || message.PositionYS>6000)
 
                         {
-                            if (lastpoint == "") {
+                            if (!lastpoint) {
                                 continue;
                             }
                             point = lastpoint;
                         } else {
                             lastpoint = point;
+                            localStorage.setItem('lastpoint', lastpoint);
                         }
 
                         
@@ -68,6 +75,7 @@
 
                     var convertor = new BMap.Convertor();
                     for (var i = 0; i < pointArr.length; i = i + 10) {
+                        map.clearOverlays();
                         var obj = pointArr.slice(i,i+10);
                         convertor.translate(obj, 1,5, function (data) {
                             if (data.status == 0) {
