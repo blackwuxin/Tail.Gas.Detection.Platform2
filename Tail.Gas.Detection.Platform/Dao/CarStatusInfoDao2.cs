@@ -320,6 +320,144 @@ namespace Tail.Gas.Detection.Platform.Dao
             }
 
         }
+
+        public static void GetStatus(string CarNo, string StartDateTime, string EndDateTime, ref JArray messagelist)
+        {
+            try
+            {
+                StringBuilder whereCondition = new StringBuilder();
+                StringBuilder sbSql = new StringBuilder();
+                if (!string.IsNullOrEmpty(CarNo))
+                {
+                    whereCondition.Append(" and no ='" + CarNo + "'");
+                }
+                if (!string.IsNullOrEmpty(StartDateTime))
+                {
+                    whereCondition.Append("AND a.Data_LastChangeTime >= '" + StartDateTime + "'");
+                }
+                if (!string.IsNullOrEmpty(EndDateTime))
+                {
+                    whereCondition.Append(" AND a.Data_LastChangeTime <=  '" + EndDateTime + "'");
+                }
+                sbSql.Append(string.Format(SQL_STATUS, whereCondition));
+                Dictionary<string, JObject> dic = new Dictionary<string, JObject>();
+
+                using (cardb2Entities1 cardb = new cardb2Entities1())
+                {
+                    var query = cardb.Database.SqlQuery<CarStatus>(sbSql.ToString());
+                    foreach (var item in query)
+                    {
+                        JObject joRow = new JObject();
+                        joRow["CarNo"] = item.CarNo;
+                        joRow["Color"] = item.Color;
+                        joRow["Category"] = item.Category;
+                        joRow["Belong"] = item.Belong;
+                        joRow["EngineSpeed"] = item.EngineSpeed;
+                        joRow["TemperatureBefore"] = item.TemperatureBefore;
+                        joRow["TemperatureAfter"] = (item.TemperatureAfter == null ? 0 : item.TemperatureAfter);
+                        joRow["SensorNum"] = item.SensorNum;
+                        joRow["SystemStatus"] = item.SystemStatus;
+
+                        joRow["PositionXDegree"] = item.PositionXDegree;
+                        joRow["PositionXM"] = item.PositionXM;
+                        joRow["PositionXS"] = item.PositionXS;
+                        joRow["PositionYDegree"] = item.PositionYDegree;
+                        joRow["PositionYM"] = item.PositionYM;
+                        joRow["PositionYS"] = item.PositionYS;
+                        joRow["Data_LastChangeTime"] = String.Format("{0:yyyy-MM-dd HH:mm}", item.Data_LastChangeTime);
+                 
+                        messagelist.Add(joRow);
+                    }
+
+
+
+                }
+                logger.Info("GetStatus Success");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.ToString());
+            }
+
+        }
+
+        public static void GetCarStatus(string CarNo, string StartDateTime, string EndDateTime,int pagesize, int pageNo, out long totalCount, ref JArray messagelist)
+        {
+            totalCount = 0;
+            try
+            {
+
+                //计算ROWNUM
+                int fromRowNum = (pageNo - 1) * pagesize + 1;
+                int endRowNum = pagesize * pageNo;
+                List<SqlParameter> sqlparlist = new List<SqlParameter>();
+                StringBuilder whereCondition = new StringBuilder();
+
+
+                if (!string.IsNullOrEmpty(CarNo))
+                {
+                    whereCondition.Append(" and CarNo ='" + CarNo + "'");
+                }
+                if (!string.IsNullOrEmpty(StartDateTime))
+                {
+                    whereCondition.Append("AND Data_LastChangeTime >= '" + StartDateTime + "'");
+                }
+                if (!string.IsNullOrEmpty(EndDateTime))
+                {
+                    whereCondition.Append(" AND Data_LastChangeTime <=  '" + EndDateTime + "'");
+                }
+                StringBuilder sbSql = new StringBuilder();
+                sbSql.Append(string.Format(CTE, whereCondition));
+                sbSql.Append(SQL_CAR_STATUS_FROM_CTE);
+                StringBuilder sbSql2 = new StringBuilder();
+                sbSql2.Append(string.Format(CTE, whereCondition));
+                sbSql2.Append(SQL_CAR_STATUS_COUNT);
+
+
+                sqlparlist.Add(new SqlParameter("@from", fromRowNum));
+                sqlparlist.Add(new SqlParameter("@end", endRowNum));
+
+                SqlParameter[] sqlp = sqlparlist.ToArray();
+                Dictionary<string, JObject> dic = new Dictionary<string, JObject>();
+
+                using (cardb2Entities1 cardb = new cardb2Entities1())
+                {
+                    totalCount = cardb.Database.SqlQuery<int>(sbSql2.ToString()).FirstOrDefault();
+                    var query = cardb.Database.SqlQuery<CarStatus>(sbSql.ToString(), sqlp);
+                    foreach (var item in query)
+                    {
+                        JObject joRow = new JObject();
+                        joRow["CarNo"] = item.CarNo;
+                        joRow["Color"] = item.Color;
+                        //joRow["Category"] = item.Category;
+                        //joRow["Belong"] = item.Belong;
+                        joRow["EngineSpeed"] = item.EngineSpeed;
+                        joRow["TemperatureBefore"] = item.TemperatureBefore;
+                        joRow["TemperatureAfter"] = (item.TemperatureAfter == null ? 0 : item.TemperatureAfter);
+                        joRow["SensorNum"] = item.SensorNum;
+                        joRow["SystemStatus"] = item.SystemStatus;
+
+                        joRow["PositionXDegree"] = item.PositionXDegree;
+                        joRow["PositionXM"] = item.PositionXM;
+                        joRow["PositionXS"] = item.PositionXS;
+                        joRow["PositionYDegree"] = item.PositionYDegree;
+                        joRow["PositionYM"] = item.PositionYM;
+                        joRow["PositionYS"] = item.PositionYS;
+                        joRow["Data_LastChangeTime"] = String.Format("{0:yyyy-MM-dd HH:mm}", item.Data_LastChangeTime);
+
+                        messagelist.Add(joRow);
+
+                    }
+                }
+
+                logger.Info("GetCarStatus Success");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.ToString());
+            }
+
+        }
         public class CarStatus
         {
             public string CarNo{get;set;}
@@ -370,6 +508,44 @@ namespace Tail.Gas.Detection.Platform.Dao
                                           ,[PositionYDegree]
                                           ,[PositionYM]
                                           ,[PositionYS] from [CarStatusInfo] where carno in('黑LC1361')  and Data_LastChangeTime > '2017-08-05 00:00:00' ";
+        private const string SQL_STATUS = @"  select  CarNo,a.Color,b.Category,b.Belong,TemperatureBefore,TemperatureAfter,SensorNum,EngineSpeed,SystemStatus
+                                          ,PositionXDegree
+                                          ,PositionXM
+                                          ,PositionXS
+                                          ,PositionYDegree
+                                          ,PositionYM
+                                          ,PositionYS
+										 , a.Data_LastChangeTime
+									      from CarStatusInfo a,carinfo b
+										  where 
+										  a.CarNo = b.NO
+										  and PositionXM < 60 and PositionYM<60 and [PositionXS]<6000 and [PositionYS]<6000
+										  and [PositionXDegree]!=0 and [PositionYDegree] !=0 {0}
+										  order by a.Data_LastChangeTime desc";
+
+        private const string SQL_CAR_STATUS_FROM_CTE = @" SELECT  CarNo,Color,TemperatureBefore,TemperatureAfter,SensorNum,EngineSpeed,SystemStatus
+                                          ,PositionXDegree
+                                          ,PositionXM
+                                          ,PositionXS
+                                          ,PositionYDegree
+                                          ,PositionYM
+                                          ,PositionYS
+										 , Data_LastChangeTime from CTE where  RowNumber  BETWEEN @from AND @end";
+
+        private const string CTE = @"  WITH CTE AS (select  ROW_NUMBER() OVER(ORDER BY Data_LastChangeTime desc ) as RowNumber,  CarNo,Color,TemperatureBefore,TemperatureAfter,SensorNum,EngineSpeed,SystemStatus
+                                          ,PositionXDegree
+                                          ,PositionXM
+                                          ,PositionXS
+                                          ,PositionYDegree
+                                          ,PositionYM
+                                          ,PositionYS
+										 , Data_LastChangeTime
+									      from CarStatusInfo
+										  where 
+										 1=1 
+								          {0}
+										 )";
+        private const string SQL_CAR_STATUS_COUNT = @"SELECT COUNT(*) AS cnt FROM CTE ";
 
     }
 }

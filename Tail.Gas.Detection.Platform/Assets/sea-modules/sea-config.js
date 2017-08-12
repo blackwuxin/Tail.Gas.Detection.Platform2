@@ -27,6 +27,9 @@
             "importcarinfo": "app/importcarinfo/index",
             'map': 'app/map/index',
             'map2': 'app/map/map2',
+            'mappath': 'app/map/mappath',
+            'carstatusdownload': 'app/carstatusinfo/1.0.0/download',
+            'querycarstatus2': 'app/carstatusinfo/1.0.0/querycarstatus',
             'BMap': 'http://api.map.baidu.com/api?v=2.0&ak=q2HUo15ZyO2CB7fZ90n0p5gxFVRGOmZa'
         },
         paths: {
