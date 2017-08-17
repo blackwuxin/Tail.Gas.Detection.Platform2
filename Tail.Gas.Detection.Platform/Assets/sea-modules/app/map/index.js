@@ -44,20 +44,18 @@
 
                         if ((message.PositionXDegree === 0 && message.PositionXM === 0 && message.PositionXS === 0)
                             || (message.PositionYDegree === 0 && message.PositionYM === 0 && message.PositionYS === 0)
-                            || message.PositionXM > 60 || message.PositionXS >6000 
-                            || message.PositionYM > 60 || message.PositionYS>6000)
-
-                        {
-                            if (!lastpoint) {
-                                continue;
-                            }
-                            point = lastpoint;
+                            || message.PositionXM > 60 || message.PositionXS > 6000
+                            || message.PositionYM > 60 || message.PositionYS > 6000) {
+                            //if (!lastpoint) {
+                            continue;
+                            //}
+                            //  point = lastpoint;
                         } else {
-                            lastpoint = point;
-                            localStorage.setItem('lastpoint', lastpoint);
+                            //lastpoint = point;
+                            // localStorage.setItem('lastpoint', lastpoint);
                         }
 
-                        
+
 
                         data_info.push(point);
                         //data_info.push([lng, lat, '车牌 : ' + carno +
@@ -66,7 +64,7 @@
                         //     (sensornum > 0 ? '<br>压力 : ' + sensornum + 'Kpa' : '') +
                         //     '<br>时间 : ' + data_lasttime
                         //]);
-                    }   
+                    }
                     var pointArr = [];
                     for (var i = 0; i < data_info.length; i++) {
                         var ggPoint = new BMap.Point(data_info[i][0], data_info[i][1]);
@@ -76,20 +74,40 @@
                     var convertor = new BMap.Convertor();
                     for (var i = 0; i < pointArr.length; i = i + 10) {
                         map.clearOverlays();
-                        var obj = pointArr.slice(i,i+10);
-                        convertor.translate(obj, 1,5, function (data) {
+                        var obj = pointArr.slice(i, i + 10);
+                        convertor.translate(obj, 1, 5, function (data) {
                             if (data.status == 0) {
                                 for (var i = 0; i < data.points.length; i++) {
                                     var marker = new BMap.Marker(data.points[i]);
                                     map.addOverlay(marker);
-                                    map.setCenter(data.points[i]);
+                                    //map.setCenter(data.points[i]);
                                     var content = data_info[i][2];
                                     addClickHandler(content, marker);
                                 }
                             }
                         });
+                        var data_info2 = [
+    [106.16064, 38.498087, '车牌：宁A78013<br>排气温度：0度<br>再生温度：0度<br>压力：0Kpa'],
+    [108.944006, 34.346721, '车牌：陕AC1361<br>排气温度：0度<br>再生温度：0度<br>压力：0Kpa'],
+    [116.994995, 36.708438, '车牌：鲁A1322<br>排气温度：0度<br>再生温度：0度<br>压力：0Kpa'],
+    [118.728152, 32.020906, '车牌：苏A54321<br>排气温度：0度<br>再生温度：0度<br>压力：0Kpa'],
+    [120.181983, 30.287705, '车牌：浙A54326<br>排气温度：0度<br>再生温度：0度<br>压力：0Kpa']
+                        ];
+                        var pointArr = [];
+                        for (var i = 0; i < data_info2.length; i++) {
+                            var ggPoint = new BMap.Point(data_info2[i][0], data_info2[i][1]);
+                            pointArr.push(ggPoint);
+                        }
+                        for (var i = 0; i < pointArr.length; i++) {
+                            var marker = new BMap.Marker(pointArr[i]);
+                            map.addOverlay(marker);
+                            //map.setCenter(pointArr[i]);
+                            var content = data_info2[i][2];
+
+                            addClickHandler(content, marker);
+                        }
                     }
-                   
+
                 }
 
             },
@@ -98,11 +116,12 @@
             }
         });
     }
-   
+
     function initMap() {
         // 百度地图API功能
         map = new BMap.Map("allmap");
-        map.centerAndZoom('哈尔滨', 10);
+        //map.centerAndZoom('哈尔滨', 10);
+        map.centerAndZoom("中国", 5.5);
         // 添加带有定位的导航控件
         var navigationControl = new BMap.NavigationControl({
             // 靠左上角位置
@@ -116,7 +135,7 @@
         map.enableScrollWheelZoom(true);
 
 
-        
+
         //var data_info = [
         //[127.773868, 45.850577],
         //[127.773814,45.850435],
@@ -197,12 +216,12 @@
         //for (var i = 0; i < pointArr.length; i++) {
         //    var marker = new BMap.Marker(pointArr[i]);
         //    map.addOverlay(marker);
-        //    map.setCenter(pointArr[i]);
+        //    //map.setCenter(pointArr[i]);
         //    var content = data_info[i][2];
 
         //    addClickHandler(content, marker);
         //}
-        //map.centerAndZoom(pointArr[0],10);
+        // map.centerAndZoom(pointArr[0],10);
     }
 
 
@@ -229,5 +248,5 @@
     setInterval(function () {
         query();
     }, 6000);
-   
+
 });

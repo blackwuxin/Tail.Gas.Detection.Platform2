@@ -13,15 +13,15 @@ namespace Tail.Gas.Detection.Platform.Dao
     public class CarStatusInfoDao2
     {
         public readonly static log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-       
+
         public static IList<CarStatusInfo> GetAll()
         {
             using (cardb2Entities1 cardb = new cardb2Entities1())
             {
-                 IList<CarStatusInfo> carstatusinfos = cardb.CarStatusInfo.ToList<CarStatusInfo>();
-                 return carstatusinfos;
-           }
-           
+                IList<CarStatusInfo> carstatusinfos = cardb.CarStatusInfo.ToList<CarStatusInfo>();
+                return carstatusinfos;
+            }
+
         }
 
         public static void InsertCarStatusInfo(CarStatusInfo carstatusinfo)
@@ -33,12 +33,12 @@ namespace Tail.Gas.Detection.Platform.Dao
             }
         }
 
-        public static void GetNormalListByPage(string CarNo,string Category, string Belong, int pagesize, int pageNo, out long totalCount, ref JArray messagelist)
+        public static void GetNormalListByPage(string CarNo, string Category, string Belong, int pagesize, int pageNo, out long totalCount, ref JArray messagelist)
         {
             totalCount = 0;
             try
             {
-               
+
                 //计算ROWNUM
                 int fromRowNum = (pageNo - 1) * pagesize + 1;
                 int endRowNum = pagesize * pageNo;
@@ -58,20 +58,20 @@ namespace Tail.Gas.Detection.Platform.Dao
                     whereCondition.Append(" and a.no ='" + CarNo + "'");
                 }
                 StringBuilder sbSql = new StringBuilder();
-				sbSql.Append(string.Format(CTE_SQL_LIST, whereCondition));
+                sbSql.Append(string.Format(CTE_SQL_LIST, whereCondition));
                 sbSql.Append(SQL_LIST_FROM_CTE);
                 StringBuilder sbSql2 = new StringBuilder();
                 sbSql2.Append(string.Format(CTE_SQL_LIST, whereCondition));
                 sbSql2.Append(SQL_COUNT);
-                
 
-                sqlparlist.Add(new SqlParameter("@from",fromRowNum));
-                sqlparlist.Add(new SqlParameter("@end",endRowNum));
 
-                SqlParameter[] sqlp = sqlparlist.ToArray(); 
+                sqlparlist.Add(new SqlParameter("@from", fromRowNum));
+                sqlparlist.Add(new SqlParameter("@end", endRowNum));
+
+                SqlParameter[] sqlp = sqlparlist.ToArray();
                 Dictionary<string, JObject> dic = new Dictionary<string, JObject>();
 
-                using(cardb2Entities1 cardb = new cardb2Entities1())
+                using (cardb2Entities1 cardb = new cardb2Entities1())
                 {
                     totalCount = cardb.Database.SqlQuery<int>(sbSql2.ToString()).FirstOrDefault();
                     var query = cardb.Database.SqlQuery<CarStatus>(sbSql.ToString(), sqlp);
@@ -96,14 +96,15 @@ namespace Tail.Gas.Detection.Platform.Dao
                         //    {
                         //        dic.Remove(item.CarNo);
                         //    }
-                                dic.Add(item.CarNo, joRow);
-                         
+                        dic.Add(item.CarNo, joRow);
+
                         //}
-                      
+
                     }
 
 
-                    foreach(var value in dic.Values){
+                    foreach (var value in dic.Values)
+                    {
                         messagelist.Add(value);
                     }
                 }
@@ -115,7 +116,7 @@ namespace Tail.Gas.Detection.Platform.Dao
             {
                 logger.Error(ex.ToString());
             }
-            
+
         }
 
         public static void GetErrorListByPage(string CarNo, string Category, string Belong, int pagesize, int pageNo, out long totalCount, ref JArray messagelist)
@@ -157,7 +158,7 @@ namespace Tail.Gas.Detection.Platform.Dao
                 SqlParameter[] sqlp = sqlparlist.ToArray();
                 Dictionary<string, JObject> dic = new Dictionary<string, JObject>();
 
-                 using (cardb2Entities1 cardb = new cardb2Entities1())
+                using (cardb2Entities1 cardb = new cardb2Entities1())
                 {
                     totalCount = cardb.Database.SqlQuery<int>(sbSql2.ToString()).FirstOrDefault();
                     var query = cardb.Database.SqlQuery<CarStatus>(sbSql.ToString(), sqlp);
@@ -174,25 +175,26 @@ namespace Tail.Gas.Detection.Platform.Dao
                         joRow["SystemStatus"] = item.SystemStatus;
                         joRow["Data_LastChangeTime"] = item.Data_LastChangeTime;
                         joRow["EngineSpeed"] = item.EngineSpeed;
-                        
+
                         //  if ("豫AC8760,豫AR0038,豫AL1098".IndexOf(item.CarNo) != -1)
                         //{
                         //    if (dic.ContainsKey(item.CarNo))
                         //    {
                         //        dic.Remove(item.CarNo);
                         //    }
-                                dic.Add(item.CarNo, joRow);
-                         
+                        dic.Add(item.CarNo, joRow);
+
                         //}
-                      
+
                     }
 
 
-                    foreach(var value in dic.Values){
+                    foreach (var value in dic.Values)
+                    {
                         messagelist.Add(value);
                     }
-                
-               }
+
+                }
                 // totalCount = messagelist.Count();
                 logger.Info("GetErrorListByPage Success");
             }
@@ -213,7 +215,7 @@ namespace Tail.Gas.Detection.Platform.Dao
                 {
                     if (a["CarNo"] != b["CarNo"])
                         return true;
-                   
+
                     return false;
                 }
                 else return false;
@@ -224,7 +226,7 @@ namespace Tail.Gas.Detection.Platform.Dao
             }
         }
 
-        public static void GetMapList(string Belong,ref JArray messagelist)
+        public static void GetMapList(string Belong, ref JArray messagelist)
         {
             try
             {
@@ -310,7 +312,7 @@ namespace Tail.Gas.Detection.Platform.Dao
                     }
 
 
-       
+
                 }
                 logger.Info("GetMapList Success");
             }
@@ -322,7 +324,7 @@ namespace Tail.Gas.Detection.Platform.Dao
         }
         public class CarStatus
         {
-            public string CarNo{get;set;}
+            public string CarNo { get; set; }
             public string Color { get; set; }
             public string Category { get; set; }
             public string Belong { get; set; }
@@ -341,8 +343,8 @@ namespace Tail.Gas.Detection.Platform.Dao
             public decimal? PositionYS { get; set; }
         }
 
-//        private const string CTE_SQL_LIST = @"WITH CTE AS (select  ROW_NUMBER() OVER(ORDER BY a.no ASC ) as RowNumber, b.CarNo,a.Color,a.Category,a.Belong,b.TemperatureBefore,b.SensorNum,b.SystemStatus,b.Data_LastChangeTime from (select *,ROW_NUMBER() over(partition by carno order by Data_LastChangeTime desc) rn from CarStatusInfo) b ,carinfo a 
-//                                              where b.rn<=1 and a.no = b.carno and a.no in('豫AC8760','豫AR0038','豫AL1098') {0})";
+        //        private const string CTE_SQL_LIST = @"WITH CTE AS (select  ROW_NUMBER() OVER(ORDER BY a.no ASC ) as RowNumber, b.CarNo,a.Color,a.Category,a.Belong,b.TemperatureBefore,b.SensorNum,b.SystemStatus,b.Data_LastChangeTime from (select *,ROW_NUMBER() over(partition by carno order by Data_LastChangeTime desc) rn from CarStatusInfo) b ,carinfo a 
+        //                                              where b.rn<=1 and a.no = b.carno and a.no in('豫AC8760','豫AR0038','豫AL1098') {0})";
         private const string CTE_SQL_LIST = @"WITH CTE AS (select  ROW_NUMBER() OVER(ORDER BY a.no ASC ) as RowNumber, b.CarNo,a.Color,a.Category,a.Belong,b.TemperatureBefore,b.TemperatureAfter,b.SensorNum,b.SystemStatus,b.Data_LastChangeTime,b.EngineSpeed from (select *,ROW_NUMBER() over(partition by carno order by Data_LastChangeTime desc) rn from CarStatusInfo) b ,carinfo a 
                                               where b.rn<=1 and a.no = b.carno  {0})";
         //private const string SQL_LIST_FROM_CTE = "SELECT CarNo,Color,Category,Belong,TemperatureBefore,SensorNum,SystemStatus,Data_LastChangeTime from CTE where rownumber in	( select max(rownumber) as rownumber  from CTE group by carno) and RowNumber  BETWEEN @from AND @end ";
