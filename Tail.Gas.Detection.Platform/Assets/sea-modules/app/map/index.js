@@ -3,8 +3,9 @@
     var $ = require('jquery');
     //var BMap = require('BMap');
     var JSON = require('json');
+    var commonData = require("commondata");
     var belong = '哈尔滨';
-    var lastpoint = localStorage.getItem('lastpoint');
+  //  var lastpoint = localStorage.getItem('lastpoint');
     var query = function () {
         $.ajax({
             type: "get",
@@ -48,13 +49,13 @@
                             || message.PositionYM > 60 || message.PositionYS>6000)
 
                         {
-                            if (!lastpoint) {
+                          //  if (!lastpoint) {
                                 continue;
-                            }
-                            point = lastpoint;
+                         //   }
+                         //   point = lastpoint;
                         } else {
-                            lastpoint = point;
-                            localStorage.setItem('lastpoint', lastpoint);
+                         //   lastpoint = point;
+                          //  localStorage.setItem('lastpoint', lastpoint);
                         }
 
                         
@@ -115,7 +116,20 @@
         map.addControl(navigationControl);
         map.enableScrollWheelZoom(true);
 
+        function myFun(result) {
+            var cityName = result.name;
+            commonData.initSelectWithCity("Belong", $("#Belong"), cityName);
+            // map.centerAndZoom(cityName,10);
+            //alert("当前定位城市:" + cityName);
 
+        }
+        var myCity = new BMap.LocalCity();
+        myCity.get(myFun);
+        $("#Belong").change(function (value) {
+
+            map.centerAndZoom(value.target.value, 10);
+            belong = value.target.value;
+        });
         
         //var data_info = [
         //[127.773868, 45.850577],

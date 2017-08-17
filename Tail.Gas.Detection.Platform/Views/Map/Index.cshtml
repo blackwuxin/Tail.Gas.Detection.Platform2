@@ -17,6 +17,16 @@
     }
 
 </style>
+<div class="col-md-12">
+
+    <div class="form-group col-md-3">
+        <label class="col-sm-4 control-label">城市选择：</label>
+        <div class="col-sm-8">
+            <select id="Belong" name="Belong" class="form-control ng-pristine ng-valid" ng-model="queryObj.appCategoryId" ng-options="cat.id as cat.name for cat in appCategories"></select>
+        </div>
+    </div>
+
+</div>
 <div id="allmap"></div>
 
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=q2HUo15ZyO2CB7fZ90n0p5gxFVRGOmZa"></script>

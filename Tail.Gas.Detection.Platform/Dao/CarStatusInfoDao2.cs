@@ -490,7 +490,12 @@ namespace Tail.Gas.Detection.Platform.Dao
         private const string SQL_MAP = @"  WITH CTE AS (select  ROW_NUMBER() OVER(ORDER BY a.no ASC ) as RowNumber,
                                        b.CarNo,a.Color,a.Category,a.Belong,b.TemperatureBefore,b.TemperatureAfter,b.SensorNum,b.SystemStatus,b.Data_LastChangeTime,b.EngineSpeed 
                                        ,b.PositionXDegree,b.PositionXM,b.PositionXS,b.PositionYDegree,b.PositionYM,b.PositionYS
-                                       from (select *,ROW_NUMBER() over(partition by carno order by Data_LastChangeTime desc) rn from CarStatusInfo) b ,carinfo a 
+                                       from (select *,ROW_NUMBER() over(partition by carno order by Data_LastChangeTime desc) rn from CarStatusInfo
+  where PositionXDegree!=0 and PositionXM!=0 and PositionXS!=0
+										and PositionYDegree!=0 and PositionYM!=0 and PositionYS!=0
+										and PositionXM<60 and PositionYM <60
+										and PositionXS<6000 and PositionYS<6000 
+) b ,carinfo a 
                                        where b.rn<=1 and a.no = b.carno )
                                       SELECT CarNo,Color,Category,Belong,TemperatureBefore,TemperatureAfter,SensorNum,SystemStatus,Data_LastChangeTime,EngineSpeed
                                             ,[PositionXDegree]

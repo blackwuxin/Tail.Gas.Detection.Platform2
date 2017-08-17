@@ -53,17 +53,20 @@
       <HintPath>..\packages\log4net.2.0.5\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Synchronization.Files, Version=1.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
-    <Reference Include="NPOI">
+    <Reference Include="NPOI, Version=2.2.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>Net40\NPOI.dll</HintPath>
     </Reference>
-    <Reference Include="NPOI.OOXML">
+    <Reference Include="NPOI.OOXML, Version=2.2.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>Net40\NPOI.OOXML.dll</HintPath>
     </Reference>
-    <Reference Include="NPOI.OpenXml4Net">
+    <Reference Include="NPOI.OpenXml4Net, Version=2.2.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>Net40\NPOI.OpenXml4Net.dll</HintPath>
     </Reference>
-    <Reference Include="NPOI.OpenXmlFormats">
+    <Reference Include="NPOI.OpenXmlFormats, Version=2.2.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>Net40\NPOI.OpenXmlFormats.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -281,15 +284,12 @@
     <Content Include="Assets\sea-modules\app\app\1.0.0\image1.jpg" />
     <Content Include="Assets\sea-modules\app\app\1.0.0\标志.png" />
     <Content Include="Assets\sea-modules\app\carinfo\edit.js" />
-    <Content Include="Assets\sea-modules\app\carstatusinfo\1.0.0\querycarstatus.js" />
-    <Content Include="Assets\sea-modules\app\carstatusinfo\1.0.0\download.js" />
     <Content Include="Assets\sea-modules\app\carstatusinfo\1.0.0\index.js" />
     <Content Include="Assets\sea-modules\app\common\1.0.0\commondata.js" />
     <Content Include="Assets\sea-modules\app\common\1.0.0\constants.js" />
     <Content Include="Assets\sea-modules\app\common\1.0.0\dialog.js" />
     <Content Include="Assets\sea-modules\app\common\1.0.0\utils.js" />
     <Content Include="Assets\sea-modules\app\importcarinfo\index.js" />
-    <Content Include="Assets\sea-modules\app\map\mappath.js" />
     <Content Include="Assets\sea-modules\app\map\map2.js" />
     <Content Include="Assets\sea-modules\app\map\index.js" />
     <Content Include="Assets\sea-modules\extend\bootstrapdialog\3.3.2\bootstrap-dialog.css" />
@@ -413,9 +413,6 @@
     <Content Include="Views\Home\Forbidden.cshtml" />
     <Content Include="Views\Map\Index.cshtml" />
     <Content Include="Views\Map\map2.cshtml" />
-    <Content Include="Views\Map\Path.cshtml" />
-    <Content Include="Views\CarStatusInfo\DownLoad.cshtml" />
-    <Content Include="Views\CarStatusInfo\Query.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
