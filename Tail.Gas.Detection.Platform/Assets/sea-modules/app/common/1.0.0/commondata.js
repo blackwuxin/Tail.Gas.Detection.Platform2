@@ -8,7 +8,7 @@
 	exports.setCheckBoxWithCommonData = setCheckBoxWithCommonData;
 	exports.initSelectWithCarType = initSelectWithCarType;
 	exports.initSelectWithBelong = initSelectWithBelong;
-
+	exports.initSelectWithCity = initSelectWithCity;
 	function getCommonData(type, successHandler, errorHandler) {
 		$.ajax({
 			type: "POST",
@@ -106,6 +106,23 @@
 	        var options = '';
 	        if (firstItem) {
 	            options += "<option value=''>" + firstItem + "</option>";
+	        }
+	        for (var i = 0; i < data.length; i++) {
+	            options += "<option value='" + data[i].Belong + "'>" + data[i].Belong + "</option>";
+	        }
+
+	        $selectObj.html(options);
+
+	        if (callback) {
+	            callback();
+	        }
+	    });
+	}
+	function initSelectWithCity(type, $selectObj, firstItem, callback) {
+	    getCommonData(type, function (data) {
+	        var options = '';
+	        if (firstItem) {
+	            options += "<option value='"+firstItem+"'>" + firstItem + "</option>";
 	        }
 	        for (var i = 0; i < data.length; i++) {
 	            options += "<option value='" + data[i].Belong + "'>" + data[i].Belong + "</option>";
