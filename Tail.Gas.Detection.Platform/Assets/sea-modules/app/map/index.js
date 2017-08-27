@@ -240,6 +240,7 @@
 
     initMap();
     query();
+    $("#Belong").select2();
     setInterval(function () {
         query();
     }, 60000);
