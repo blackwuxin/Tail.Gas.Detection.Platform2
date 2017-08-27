@@ -65,7 +65,7 @@
 					if (resp.result ==0) {
 						window.location.href =window.BASE_PATH+"/carstatusinfo/index";
 					} else {
-						Dialog.error("账号密码错误，请重试！");
+						Dialog.error("账号密码或类型错误，请重试！");
 					}
 					if (callback) {
 						callback();

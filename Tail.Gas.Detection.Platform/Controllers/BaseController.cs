@@ -65,18 +65,20 @@ namespace Tail.Gas.Detection.Platform.Controllers
                    url.Contains("/carstatusinfo/error") ? activeClass : "", ApplicationPath));
                 sbMenus.Append(string.Format("<li role='presentation' {0}><a href='{1}/map/Index' target=''>地图</a></li>",
                  url.Contains("/map/Index") ? activeClass : "", ApplicationPath));
+                sbMenus.Append(string.Format("<li role='presentation' {0}><a href='{1}/carstatusinfo/querycarstatus' target=''>车辆状态查询</a></li>",
+                     url.Contains("/carstatusinfo/querycarstatus") ? activeClass : "", ApplicationPath));
 
+            }
+            if ("监管人员".Equals(System.Web.HttpContext.Current.Session["usertype"]) || "管理员".Equals(System.Web.HttpContext.Current.Session["usertype"]))
+            {
+                sbMenus.Append(string.Format("<li role='presentation' {0}><a href='{1}/importcarinfo/' target=''>导入车辆信息</a></li>",
+  url.Contains("/importcarinfo") ? activeClass : "", ApplicationPath));
+
+                sbMenus.Append(string.Format("<li role='presentation' {0}><a href='{1}/carstatusinfo/download' target=''>车辆状态下载</a></li>",
+                       url.Contains("/carstatusinfo/download") ? activeClass : "", ApplicationPath));
             }
             if ("管理员".Equals(System.Web.HttpContext.Current.Session["usertype"]))
             {
-                sbMenus.Append(string.Format("<li role='presentation' {0}><a href='{1}/importcarinfo/' target=''>导入车辆信息</a></li>",
-                  url.Contains("/importcarinfo") ? activeClass : "", ApplicationPath));
-//                sbMenus.Append(string.Format("<li role='presentation' {0}><a href='{1}/map/path' target=''>车辆轨迹</a></li>",
-//url.Contains("/map/path") ? activeClass : "", ApplicationPath));
-                sbMenus.Append(string.Format("<li role='presentation' {0}><a href='{1}/carstatusinfo/download' target=''>车辆状态下载</a></li>",
-                       url.Contains("/carstatusinfo/download") ? activeClass : "", ApplicationPath));
-                sbMenus.Append(string.Format("<li role='presentation' {0}><a href='{1}/carstatusinfo/querycarstatus' target=''>车辆状态查询</a></li>",
-                       url.Contains("/carstatusinfo/querycarstatus") ? activeClass : "", ApplicationPath));
 
             }
            

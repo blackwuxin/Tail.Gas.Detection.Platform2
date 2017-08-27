@@ -37,7 +37,7 @@ namespace Tail.Gas.Detection.Platform.Controllers
             JObject joResult = new JObject();
             foreach (JObject items in users)  
             {
-                if (items["username"].ToString() == username && items["pwd"].ToString() == password)
+                if (items["username"].ToString() == username && items["pwd"].ToString() == password && items["usertype"].ToString() == usertype)
                 {
                     System.Web.HttpContext.Current.Session["username"] = username;
                     System.Web.HttpContext.Current.Session["usertype"] = usertype;
