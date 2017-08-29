@@ -79,7 +79,8 @@ namespace Tail.Gas.Detection.Platform.Controllers
             }
             if ("管理员".Equals(System.Web.HttpContext.Current.Session["usertype"]))
             {
-
+                sbMenus.Append(string.Format("<li role='presentation' {0}><a href='{1}/roleinfo/index' target=''>角色管理</a></li>",
+                    url.Contains("/roleinfo/index") ? activeClass : "", ApplicationPath));
             }
            
             return sbMenus.ToString();

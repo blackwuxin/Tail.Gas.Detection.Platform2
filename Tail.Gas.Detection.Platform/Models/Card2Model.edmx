@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="cardb2Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="cardb2Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="CarInfo">
           <Key>
             <PropertyRef Name="ID" />
@@ -86,6 +86,48 @@
           <Property Name="cardstatusinfo" Type="nvarchar(max)" />
           <Property Name="DataChange_LastTime" Type="datetime" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'cardb.dbo.PageInfo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="PageInfo">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="pagename" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="pagename" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="pagetype" Type="int" />
+        </EntityType>
+        <EntityType Name="RoleInfo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="rolename" Type="nvarchar" MaxLength="50" />
+          <Property Name="page" Type="nvarchar(max)" />
+          <Property Name="createtime" Type="datetime" />
+          <Property Name="lasttime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="UserInfo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="nvarchar(max)" />
+          <Property Name="password" Type="nvarchar(max)" />
+          <Property Name="createtime" Type="datetime" />
+          <Property Name="lasttime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="UserRoleInfo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="nvarchar(max)" />
+          <Property Name="rolename" Type="nvarchar(max)" />
+          <Property Name="page" Type="nvarchar(max)" />
+          <Property Name="createtime" Type="datetime" />
+          <Property Name="lasttime" Type="datetime" />
+        </EntityType>
         <EntityContainer Name="cardb2ModelStoreContainer">
           <EntitySet Name="CarInfo" EntityType="Self.CarInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CarNoBlong" EntityType="Self.CarNoBlong" Schema="dbo" store:Type="Tables" />
@@ -93,9 +135,18 @@
           <EntitySet Name="CarStatusInfo" EntityType="Self.CarStatusInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CarType" EntityType="Self.CarType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InputCarStatusInfo" EntityType="Self.InputCarStatusInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RoleInfo" EntityType="Self.RoleInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserInfo" EntityType="Self.UserInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserRoleInfo" EntityType="Self.UserRoleInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PageInfo" EntityType="Self.PageInfo" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[PageInfo].[ID] AS [ID], 
+[PageInfo].[pagename] AS [pagename], 
+[PageInfo].[pagetype] AS [pagetype]
+FROM [dbo].[PageInfo] AS [PageInfo]</DefiningQuery>
+          </EntitySet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="cardb2Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -187,7 +238,51 @@
           <EntitySet Name="CarStatusInfo" EntityType="Self.CarStatusInfo" />
           <EntitySet Name="CarType" EntityType="Self.CarType" />
           <EntitySet Name="InputCarStatusInfo" EntityType="Self.InputCarStatusInfo" />
+          <EntitySet Name="PageInfo" EntityType="cardb2Model.PageInfo" />
+          <EntitySet Name="RoleInfo" EntityType="cardb2Model.RoleInfo" />
+          <EntitySet Name="UserInfo" EntityType="cardb2Model.UserInfo" />
+          <EntitySet Name="UserRoleInfo" EntityType="cardb2Model.UserRoleInfo" />
         </EntityContainer>
+        <EntityType Name="PageInfo">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="pagename" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="pagename" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="pagetype" Type="Int32" />
+        </EntityType>
+        <EntityType Name="RoleInfo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="rolename" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="page" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="createtime" Type="DateTime" Precision="3" />
+          <Property Name="lasttime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="UserInfo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="createtime" Type="DateTime" Precision="3" />
+          <Property Name="lasttime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="UserRoleInfo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="rolename" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="page" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="createtime" Type="DateTime" Precision="3" />
+          <Property Name="lasttime" Type="DateTime" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -278,6 +373,49 @@
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="cardstatusinfo" ColumnName="cardstatusinfo" />
                 <ScalarProperty Name="DataChange_LastTime" ColumnName="DataChange_LastTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PageInfo">
+            <EntityTypeMapping TypeName="cardb2Model.PageInfo">
+              <MappingFragment StoreEntitySet="PageInfo">
+                <ScalarProperty Name="pagetype" ColumnName="pagetype" />
+                <ScalarProperty Name="pagename" ColumnName="pagename" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RoleInfo">
+            <EntityTypeMapping TypeName="cardb2Model.RoleInfo">
+              <MappingFragment StoreEntitySet="RoleInfo">
+                <ScalarProperty Name="lasttime" ColumnName="lasttime" />
+                <ScalarProperty Name="createtime" ColumnName="createtime" />
+                <ScalarProperty Name="page" ColumnName="page" />
+                <ScalarProperty Name="rolename" ColumnName="rolename" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserInfo">
+            <EntityTypeMapping TypeName="cardb2Model.UserInfo">
+              <MappingFragment StoreEntitySet="UserInfo">
+                <ScalarProperty Name="lasttime" ColumnName="lasttime" />
+                <ScalarProperty Name="createtime" ColumnName="createtime" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserRoleInfo">
+            <EntityTypeMapping TypeName="cardb2Model.UserRoleInfo">
+              <MappingFragment StoreEntitySet="UserRoleInfo">
+                <ScalarProperty Name="lasttime" ColumnName="lasttime" />
+                <ScalarProperty Name="createtime" ColumnName="createtime" />
+                <ScalarProperty Name="page" ColumnName="page" />
+                <ScalarProperty Name="rolename" ColumnName="rolename" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

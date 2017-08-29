@@ -9,6 +9,8 @@
 	exports.initSelectWithCarType = initSelectWithCarType;
 	exports.initSelectWithBelong = initSelectWithBelong;
 	exports.initSelectWithCity = initSelectWithCity;
+	exports.initSelectWithRoleName = initSelectWithRoleName;
+
 	function getCommonData(type, successHandler, errorHandler) {
 		$.ajax({
 			type: "POST",
@@ -65,7 +67,7 @@
 	            var options = '';
 	            for (var i = 0; i < data.length; i++) {
 	                options += "<label class=\"checkbox-inline\">";
-	                options += "<input type=\"checkbox\" id='" + data[i].PropertyType + data[i].PropertyValue + "' value='" + data[i].PropertyValue + "'> " + data[i].PropertyName;
+	                options += "<input type=\"checkbox\" id='" + data[i].pagetype + "' value='" + data[i].pagename + "'> " + data[i].pagename;
 	                options += "</label>";
 	            }
 
@@ -136,6 +138,24 @@
 	    });
 	}
 	function initSelectWithCarType(type, $selectObj, firstItem, callback) {
+	    getCommonData(type, function (data) {
+	        var options = '';
+	        if (firstItem) {
+	            options += "<option value=''>" + firstItem + "</option>";
+	        }
+	        for (var i = 0; i < data.length; i++) {
+	            options += "<option value='" + data[i].Name + "'>" + data[i].Name + "</option>";
+	        }
+
+	        $selectObj.html(options);
+
+	        if (callback) {
+	            callback();
+	        }
+	    });
+	}
+
+	function initSelectWithRoleName(type, $selectObj, firstItem, callback) {
 	    getCommonData(type, function (data) {
 	        var options = '';
 	        if (firstItem) {

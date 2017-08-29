@@ -31,5 +31,9 @@ namespace Tail.Gas.Detection.Platform.Models
         public DbSet<CarStatusInfo> CarStatusInfo { get; set; }
         public DbSet<CarType> CarType { get; set; }
         public DbSet<InputCarStatusInfo> InputCarStatusInfo { get; set; }
+        public DbSet<PageInfo> PageInfo { get; set; }
+        public DbSet<RoleInfo> RoleInfo { get; set; }
+        public DbSet<UserInfo> UserInfo { get; set; }
+        public DbSet<UserRoleInfo> UserRoleInfo { get; set; }
     }
 }

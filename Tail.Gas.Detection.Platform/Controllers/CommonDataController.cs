@@ -46,6 +46,25 @@ namespace Tail.Gas.Detection.Platform.Controllers
                         messageList.Add(joRow);
                     }
                 }
+                else if("RoleInfo".Equals(type))
+                {
+                    foreach (var item in cardb.RoleInfo)
+                    {
+                        JObject joRow = new JObject();
+                        joRow["Name"] = item.rolename;
+                        messageList.Add(joRow);
+                    }
+                }
+                else if ("PageInfo".Equals(type))
+                {
+                    foreach (var item in cardb.PageInfo)
+                    {
+                        JObject joRow = new JObject();
+                        joRow["pagename"] = item.pagename;
+                        joRow["pagetype"] = item.pagetype;
+                        messageList.Add(joRow);
+                    }
+                }
                 jobject["result"] = 0;
                 jobject["data"] = messageList;
             }

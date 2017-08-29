@@ -30,6 +30,8 @@
             'mappath': 'app/map/mappath',
             'carstatusdownload': 'app/carstatusinfo/1.0.0/download',
             'querycarstatus2': 'app/carstatusinfo/1.0.0/querycarstatus',
+            'roleinfo': 'app/roleinfo/index',
+            'userinfo': 'app/userinfo/index',
             'BMap': 'http://api.map.baidu.com/api?v=2.0&ak=q2HUo15ZyO2CB7fZ90n0p5gxFVRGOmZa'
         },
         paths: {

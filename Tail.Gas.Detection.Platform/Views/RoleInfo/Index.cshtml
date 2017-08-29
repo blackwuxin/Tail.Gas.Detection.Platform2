@@ -1,0 +1,95 @@
+﻿<style type="text/css">
+    td {
+        word-wrap: break-word;
+        word-break: break-all;
+        white-space: normal;
+    }
+</style>
+<form id="search_form" class="ng-pristine ng-valid" method="post">
+    <div class="col-md-12">
+
+        <div class="form-group col-md-3">
+            <label class="col-sm-4 control-label">角色：</label>
+            <div class="col-sm-8">
+                <select id="RoleName" name="RoleName" class="form-control ng-pristine ng-valid"></select>
+            </div>
+        </div>
+    
+        <div class="form-group col-md-3">
+            <div class="form-group col-md-4" style="text-align: right;">
+                <input id="btn-search" type="button" class="btn btn-primary btn-sm search-btn" value="查询" />
+            </div>
+            <div class="form-group col-md-4" style="text-align: right;">
+                <input id="btn-add" type="button" class="btn btn-primary btn-sm search-btn" value="新增" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div style="margin-top: 20px;">
+    <table id="pclist" class="table table-striped table-bordered  table-hover" cellspacing="0">
+        <thead>
+            <tr style="background-color: #337ab7; color: white;">
+                <th  class="text-center">序号</th>
+                <th  class="text-center">角色名称</th>
+                <th  class="text-center">页面权限</th>
+                <th class="text-center">创建时间</th>
+                <th class="text-center">修改时间</th>
+                <th class="text-center">操作</th>
+            </tr>
+        </thead>
+
+        <tbody></tbody>
+    </table>
+</div>
+
+<div class="modal fade" id="save-role-panel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 id="modal-title" class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <input type="hidden" id="save-role-id" />
+
+                    <div class="form-group">
+                        <label for="save-rolename">角色：</label>
+                        <input type="text" class="form-control" id="save-role-name" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="save-sid">
+                            页面：
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="Role_Page_ALL" name="Role_Page_ALL"> 全选
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <div style="border: 1px solid #CCC;" id="Role_Page_List" name="Role_Page_List">
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    关闭
+                </button>
+                <button type="button" id="btn-save" class="btn btn-primary">
+                    保存
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    seajs.use(['$', 'roleinfo'], function ($, roleinfo) {;
+        $(document).ready(function () {
+            roleinfo.init();
+                     
+        });
+    });
+</script>
