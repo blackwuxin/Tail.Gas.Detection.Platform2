@@ -16,16 +16,18 @@ namespace Tail.Gas.Detection.Platform.Dao
 
         public static void InsertUserInfo(UserInfo userinfo)
         {
-            try
-            {
-                cardb2Entities1 cardb = new cardb2Entities1();
-                cardb.UserInfo.Add(userinfo);
-                cardb.SaveChanges();
-            }
-            catch (Exception ex)
-            {
 
-            }
+                cardb2Entities1 cardb = new cardb2Entities1();
+                var user = cardb.UserInfo.Where(u => u.username == userinfo.username);
+
+                if (user.Count() > 0)
+                {
+                    throw new Exception("-2");
+                }
+                    cardb.UserInfo.Add(userinfo);
+                    cardb.SaveChanges();
+
+
         }
         public static void DeleteUserInfo(int userid)
         {
@@ -40,6 +42,24 @@ namespace Tail.Gas.Detection.Platform.Dao
             {
 
             }
+        }
+        public static string CheckUserInfo(string username,string password,string usertype)
+        {
+            try
+            {
+                cardb2Entities1 cardb = new cardb2Entities1();
+                var user = cardb.UserInfo.Where( u => (u.username == username && u.password == password));
+                var role = cardb.UserRoleInfo.Where(u => (u.rolename == usertype && u.username == username));
+                if(user.Count()>0 && role.Count()>0){
+                    return role.First().page;
+                }
+                
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return "error";
         }
         public static void UpdateUserInfo(UserInfo userinfo)
         {

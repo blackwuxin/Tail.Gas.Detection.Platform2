@@ -23,6 +23,7 @@
             $("#modal-title").html("新增用户信息");
             $("#save-user-id").val('0');
             $("#save-username").val('');
+            $("#save-password").val('');
             $('#save-user-panel').modal('show');
             $('#save-user-panel').on('shown.bs.modal', function (e) {
                 $("#save-username").focus();
@@ -246,6 +247,8 @@
                             Dialog.success("用户信息保存成功！");
                             var currentPage = parseInt($("#pclist_paginate li.active a").text()) - 1;
                             $("#pclist").dataTable().fnPageChange(currentPage, true);
+                        } else if(resp.result == -2) {
+                            Dialog.error("用户名重复！");
                         } else {
                             Dialog.error("用户信息保存失败！");
                         }

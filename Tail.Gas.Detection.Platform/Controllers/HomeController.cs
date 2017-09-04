@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Tail.Gas.Detection.Platform.Authorize;
+using Tail.Gas.Detection.Platform.Dao;
 
 namespace Tail.Gas.Detection.Platform.Controllers
 {
@@ -31,22 +32,36 @@ namespace Tail.Gas.Detection.Platform.Controllers
         public string login(string username, string password,string usertype)
         {
             //var s = "[{'username':'user527','pwd':'admin'},{'username':'user528','pwd':'admin'},{'username':'user529','pwd':'admin'}]";
-            JArray users = (JArray)JsonConvert.DeserializeObject(ConfigurationManager.AppSettings["users"]);
+            //JArray users = (JArray)JsonConvert.DeserializeObject(ConfigurationManager.AppSettings["users"]);
            // username = "user527";
            // password = "admin";
             JObject joResult = new JObject();
-            foreach (JObject items in users)  
-            {
-                if (items["username"].ToString() == username && items["pwd"].ToString() == password && items["usertype"].ToString() == usertype)
-                {
-                    System.Web.HttpContext.Current.Session["username"] = username;
-                    System.Web.HttpContext.Current.Session["usertype"] = usertype;
-                    joResult["result"] = 0;
-                    return joResult.ToString();
-                }
-           }  
 
-            joResult["result"] = 1;
+           var b =  UserInfoDao.CheckUserInfo(username, password, usertype);
+           if (b!="error")
+           {
+               
+               System.Web.HttpContext.Current.Session["username"] = username;
+               System.Web.HttpContext.Current.Session["usertype"] = usertype;
+               System.Web.HttpContext.Current.Session["page"] = b;
+               joResult["result"] = 0;
+           }
+           else
+           {
+               joResult["result"] = 1;
+           }
+           // foreach (JObject items in users)  
+           // {
+           //     if (items["username"].ToString() == username && items["pwd"].ToString() == password && items["usertype"].ToString() == usertype)
+           //     {
+           //         System.Web.HttpContext.Current.Session["username"] = username;
+           //         System.Web.HttpContext.Current.Session["usertype"] = usertype;
+           //         joResult["result"] = 0;
+           //         return joResult.ToString();
+           //     }
+           //}  
+
+            
             return joResult.ToString();
         }
     }

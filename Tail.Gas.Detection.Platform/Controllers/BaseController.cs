@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using Tail.Gas.Detection.Platform.Models;
 
 namespace Tail.Gas.Detection.Platform.Controllers
 {
@@ -13,7 +14,7 @@ namespace Tail.Gas.Detection.Platform.Controllers
     {
         public const byte RESULT_SUCCESS = 0;
         public const byte RESULT_ERROR = 1;
-
+        public static cardb2Entities1 cardb = new cardb2Entities1();
 
         public static ServiceResponse CreateSuccessResponse()
         {
@@ -48,40 +49,107 @@ namespace Tail.Gas.Detection.Platform.Controllers
         {
     
             ViewBag.ApplicationPath = ApplicationPath;
-            ViewBag.Menus = GetMenusString();
+           
             ViewBag.ToolKit = GetToolKitString();
+        }
+        protected override void OnAuthorization(AuthorizationContext filterContext)
+        {
+            ViewBag.Menus = GetMenusString();
+        }
+        protected override void OnResultExecuting(ResultExecutingContext filterContext)
+        {
+           
         }
         private string GetMenusString()
         {
             StringBuilder sbMenus = new StringBuilder();
             string activeClass = " class='active'";
             string url = Request.RawUrl.ToLower();
+            string page = "";
+            if (System.Web.HttpContext.Current.Session["page"]!=null)
+            {
+                page = System.Web.HttpContext.Current.Session["page"].ToString();
+            }
 
-            if (!url.Contains("home")&& !url.Equals("/myapp"))
+            if (page.Contains("状态正常"))
             {
                 sbMenus.Append(string.Format("<li role='presentation' {0}><a href='{1}/carstatusinfo/Index' target=''>状态正常</a></li>",
-                   url.Contains("/carstatusinfo/index")||url.Equals("/myapp/carstatusinfo") ? activeClass : "", ApplicationPath));
-                sbMenus.Append(string.Format("<li role='presentation' {0}><a href='{1}/carstatusinfo/error' target=''>状态异常</a></li>",
-                   url.Contains("/carstatusinfo/error") ? activeClass : "", ApplicationPath));
-                sbMenus.Append(string.Format("<li role='presentation' {0}><a href='{1}/map/Index' target=''>地图</a></li>",
-                 url.Contains("/map/Index") ? activeClass : "", ApplicationPath));
-                sbMenus.Append(string.Format("<li role='presentation' {0}><a href='{1}/carstatusinfo/querycarstatus' target=''>车辆状态查询</a></li>",
-                     url.Contains("/carstatusinfo/querycarstatus") ? activeClass : "", ApplicationPath));
-
+                  url.Contains("/carstatusinfo/index") || url.Equals("/myapp/carstatusinfo") ? activeClass : "", ApplicationPath));
             }
-            if ("监管人员".Equals(System.Web.HttpContext.Current.Session["usertype"]) || "管理员".Equals(System.Web.HttpContext.Current.Session["usertype"]))
+            if (page.Contains("状态异常"))
+            {
+                sbMenus.Append(string.Format("<li role='presentation' {0}><a href='{1}/carstatusinfo/error' target=''>状态异常</a></li>",
+                  url.Contains("/carstatusinfo/error") ? activeClass : "", ApplicationPath));
+            }
+            if (page.Contains("车辆状态查询"))
+            {
+                sbMenus.Append(string.Format("<li role='presentation' {0}><a href='{1}/carstatusinfo/querycarstatus' target=''>车辆状态查询</a></li>",
+                 url.Contains("/carstatusinfo/querycarstatus") ? activeClass : "", ApplicationPath));
+            }
+
+            if (page.Contains("地图"))
+            {
+                sbMenus.Append(string.Format("<li role='presentation' {0}><a href='{1}/map/Index' target=''>地图</a></li>",
+                url.Contains("/map/Index") ? activeClass : "", ApplicationPath));
+            }
+
+
+            if (page.Contains("导入车辆信息"))
             {
                 sbMenus.Append(string.Format("<li role='presentation' {0}><a href='{1}/importcarinfo/' target=''>导入车辆信息</a></li>",
-  url.Contains("/importcarinfo") ? activeClass : "", ApplicationPath));
-
-                sbMenus.Append(string.Format("<li role='presentation' {0}><a href='{1}/carstatusinfo/download' target=''>车辆状态下载</a></li>",
-                       url.Contains("/carstatusinfo/download") ? activeClass : "", ApplicationPath));
+url.Contains("/importcarinfo") ? activeClass : "", ApplicationPath));
             }
-            if ("管理员".Equals(System.Web.HttpContext.Current.Session["usertype"]))
+            if (page.Contains("车辆状态下载"))
+            {
+                sbMenus.Append(string.Format("<li role='presentation' {0}><a href='{1}/carstatusinfo/download' target=''>车辆状态下载</a></li>",
+                 url.Contains("/carstatusinfo/download") ? activeClass : "", ApplicationPath));
+            }
+            if (page.Contains("用户管理"))
+            {
+                sbMenus.Append(string.Format("<li role='presentation' {0}><a href='{1}/userinfo/index' target=''>用户管理</a></li>",
+                    url.Contains("/userinfo/index") ? activeClass : "", ApplicationPath));
+            }
+
+            if (page.Contains("角色管理"))
             {
                 sbMenus.Append(string.Format("<li role='presentation' {0}><a href='{1}/roleinfo/index' target=''>角色管理</a></li>",
-                    url.Contains("/roleinfo/index") ? activeClass : "", ApplicationPath));
+                   url.Contains("/roleinfo/index") ? activeClass : "", ApplicationPath));
             }
+            if (page.Contains("用户角色管理"))
+            {
+                sbMenus.Append(string.Format("<li role='presentation' {0}><a href='{1}/userroleinfo/index' target=''>用户角色管理</a></li>",
+                    url.Contains("/userroleinfo/index") ? activeClass : "", ApplicationPath));
+            }
+
+  //          if (!url.Contains("home")&& !url.Equals("/myapp"))
+  //          {
+  //              sbMenus.Append(string.Format("<li role='presentation' {0}><a href='{1}/carstatusinfo/Index' target=''>状态正常</a></li>",
+  //                 url.Contains("/carstatusinfo/index")||url.Equals("/myapp/carstatusinfo") ? activeClass : "", ApplicationPath));
+  //              sbMenus.Append(string.Format("<li role='presentation' {0}><a href='{1}/carstatusinfo/error' target=''>状态异常</a></li>",
+  //                 url.Contains("/carstatusinfo/error") ? activeClass : "", ApplicationPath));
+  //              sbMenus.Append(string.Format("<li role='presentation' {0}><a href='{1}/map/Index' target=''>地图</a></li>",
+  //               url.Contains("/map/Index") ? activeClass : "", ApplicationPath));
+  //              sbMenus.Append(string.Format("<li role='presentation' {0}><a href='{1}/carstatusinfo/querycarstatus' target=''>车辆状态查询</a></li>",
+  //                   url.Contains("/carstatusinfo/querycarstatus") ? activeClass : "", ApplicationPath));
+
+  //          }
+  //          if ("监管人员".Equals(System.Web.HttpContext.Current.Session["usertype"]) || "管理员".Equals(System.Web.HttpContext.Current.Session["usertype"]))
+  //          {
+  //              sbMenus.Append(string.Format("<li role='presentation' {0}><a href='{1}/importcarinfo/' target=''>导入车辆信息</a></li>",
+  //url.Contains("/importcarinfo") ? activeClass : "", ApplicationPath));
+
+  //              sbMenus.Append(string.Format("<li role='presentation' {0}><a href='{1}/carstatusinfo/download' target=''>车辆状态下载</a></li>",
+  //                     url.Contains("/carstatusinfo/download") ? activeClass : "", ApplicationPath));
+  //          }
+  //          if ("管理员".Equals(System.Web.HttpContext.Current.Session["usertype"]))
+  //          {
+  //              sbMenus.Append(string.Format("<li role='presentation' {0}><a href='{1}/userinfo/index' target=''>用户管理</a></li>",
+  //                  url.Contains("/userinfo/index") ? activeClass : "", ApplicationPath));
+  //              sbMenus.Append(string.Format("<li role='presentation' {0}><a href='{1}/roleinfo/index' target=''>角色管理</a></li>",
+  //                 url.Contains("/roleinfo/index") ? activeClass : "", ApplicationPath));
+  //              sbMenus.Append(string.Format("<li role='presentation' {0}><a href='{1}/userroleinfo/index' target=''>用户角色管理</a></li>",
+  //                 url.Contains("/userroleinfo/index") ? activeClass : "", ApplicationPath));
+  //          }
            
             return sbMenus.ToString();
         }
@@ -118,7 +186,7 @@ namespace Tail.Gas.Detection.Platform.Controllers
         {
             System.Web.HttpContext.Current.Session["username"] = null;
             System.Web.HttpContext.Current.Session["usertype"] = null;
-
+            System.Web.HttpContext.Current.Session["page"] = null;
             JObject joRow = new JObject();
             joRow["result"] = "success";
    

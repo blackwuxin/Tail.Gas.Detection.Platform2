@@ -12,7 +12,7 @@ using Tail.Gas.Detection.Platform.Models;
 
 namespace Tail.Gas.Detection.Platform.Controllers
 {
-    public class UserInfoController : BaseController
+    public class UserRoleInfoController : BaseController
     {
         [AuthorizeFilterAttribute]
         public ActionResult Index()
@@ -20,12 +20,12 @@ namespace Tail.Gas.Detection.Platform.Controllers
             return View();
         }
 
-        public string Delete(int userid)
+        public string Delete(int userroleid)
         {
             JObject joResult = new JObject();
             try
             {
-                UserInfoDao.DeleteUserInfo(userid);
+                UserRoleInfoDao.DeleteUserRole(userroleid);
                 joResult["result"] = 0;
             }
             catch (Exception ex)
@@ -35,21 +35,20 @@ namespace Tail.Gas.Detection.Platform.Controllers
             return joResult.ToString();
         }
 
-        public string Save(UserInfo user)
+        public string Save(UserRoleInfo userrole)
         {
             JObject joResult = new JObject();
             try
             {
-                if (user.id == 0)//add
+                if (userrole.id == 0)//add
                 {
-                    user.createtime = DateTime.Now;
-                    user.lasttime = DateTime.Now;
-                    UserInfoDao.InsertUserInfo(user);
-
+                    userrole.createtime = DateTime.Now;
+                    userrole.lasttime = DateTime.Now;
+                    UserRoleInfoDao.InsertUserRoleInfo(userrole);
                 }
                 else//edit
                 {
-                    UserInfoDao.UpdateUserInfo(user);
+                    UserRoleInfoDao.UpdateUserRole(userrole);
                 }
                 joResult["result"] = 0;
 
@@ -57,23 +56,19 @@ namespace Tail.Gas.Detection.Platform.Controllers
             }
             catch (Exception ex)
             {
-                if (ex.ToString() == "-2")
-                {
-                    joResult["result"] = -2;
-                }
                 joResult["result"] = -1;
             }
            return joResult.ToString();
         }
 
-        public string query(string username, int istart, int ilen)
+        public string query(string username ,string rolename, int istart, int ilen)
         {
 
             JObject joResult = new JObject();
             JArray messageList = new JArray();
             long totalCount = 0;
 
-            UserInfoDao.GetUserList(username, ilen, istart / ilen + 1, out totalCount, ref messageList);
+            UserRoleInfoDao.GetUserRoleList(username, rolename, ilen, istart / ilen + 1, out totalCount, ref messageList);
             joResult["messages"] = messageList;
             joResult["total-records"] = totalCount;
             return joResult.ToString();

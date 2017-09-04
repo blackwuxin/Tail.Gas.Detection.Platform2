@@ -19,39 +19,36 @@
         });
 
         $("#btn-add").click(function () {
-            initPageSelectData();
-            $("#modal-title").html("新增角色");
-            $("#save-role-id").val('0');
-            $("#save-role-name").val('');
-            $('#save-role-panel').modal('show');
-            $('#save-role-panel').on('shown.bs.modal', function (e) {
-                $("#save-role-name").focus();
+            initSelectData();
+            $("#modal-title").html("新增用户角色");
+            $("#save-userrole-id").val('0');
+            $("#save-username").val('');
+            $('#save-userole-panel').modal('show');
+            $('#save-userole-panel').on('shown.bs.modal', function (e) {
+                $("#save-username").focus();
             })
         });
-        //新增 编辑 全选 所属 bu
-        $("#Role_Page_ALL").click(function () {
-            $("#Role_Page_List input[type='checkbox']").prop("checked", $("#Role_Page_ALL").prop("checked"));
-        });
+
 
         $('#pclist tbody').on('click', '.edit', function () {//修改
             var row = JSON.parse($(this).attr("row"));
-            initPageSelectData(function () {
-               
-                $("#modal-title").html("编辑角色");
-                $("#save-role-id").val(row.id);
-                $("#save-role-name").val(row.rolename);
-                $('#save-role-panel').modal('show');
-                $('#save-role-panel').on('shown.bs.modal', function (e) {
-                    $("#save-role-name").focus();
+
+                $("#modal-title").html("编辑用户角色");
+                $("#save-userrole-id").val(row.id);
+                $("#save-username").val(row.username);
+                $("#save-rolename").val(row.rolename);
+                $('#save-userole-panel').modal('show');
+                $('#save-userole-panel').on('shown.bs.modal', function (e) {
+                    $("#save-username").focus();
                 })
-            });
+
         }).on('click', '.delete', function () {//删除
 
             var row = JSON.parse($(this).attr("row"));
 
             BootstrapDialog.show({
                 title: '确认',
-                message: "您确认删除角色信息吗？",
+                message: "您确认删除用户角色信息吗？",
                 buttons: [
 					{
 					    id: 'btn-save-confirm',
@@ -66,27 +63,27 @@
 					        $.ajax({
 					            type: "POST",
 					            contentType: "application/json; charset=utf-8",
-					            url: window.BASE_PATH + '/roleinfo/Delete',
+					            url: window.BASE_PATH + '/UserRoleInfo/Delete',
 					            dataType: "json",
 					            data: JSON.stringify({
-					                roleid: row.id
+					                userroleid: row.id
 					            }),
 					            success: function (resp) {
 					                if (resp.result == 0) {
 					                    setTimeout(function () {
 					                        dialog.close();
-					                        Dialog.success("角色信息删除成功！");
+					                        Dialog.success("用户角色信息删除成功！");
 					                    }, 100);
 					                    var currentPage = parseInt($("#pclist_paginate li.active a").text()) - 1;
 					                    $("#pclist").dataTable().fnPageChange(currentPage, true);
 					                } else {
 					                    dialog.close();
-					                    Dialog.error("角色信息删除失败，请重试！");
+					                    Dialog.error("用户角色信息删除失败，请重试！");
 					                }
 					            },
 					            error: function (resp) {
 					                dialog.close();
-					                Dialog.error("角色信息删除失败，请重试！");
+					                Dialog.error("用户角色信息删除失败，请重试！");
 					            }
 					        });
 					    }
@@ -106,11 +103,6 @@
         });
     }
 
-    function initPageSelectData(callback) {
-        $("#Role_Page_ALL").prop("checked", false);
-        $("#Role_Page_List").html("");
-        commonData.initCheckBoxWithCommonData("PageInfo", $("#Role_Page_List"), callback);
-    }
     function initDataTable() {
 
         return $('#pclist').dataTable({
@@ -119,7 +111,7 @@
             "bFilter": false,
             "bSort": false,
             "bServerSide": true,
-            "sAjaxSource": window.BASE_PATH + '/roleinfo/query',
+            "sAjaxSource": window.BASE_PATH + '/UserRoleInfo/query',
             "fnServerData": retrieveData,
             "columnDefs": [
                {
@@ -130,24 +122,26 @@
 
                        return editHTML + deleteHTML;
                    },
-                   "targets": 5
+                   "targets": 6
                },
                {
                    "render": function (data, type, row) {
                        return row["createtime"] && row["createtime"].replace("T", " ");
                    },
-                   "targets": 3
+                   "targets": 4
                },
                   {
                       "render": function (data, type, row) {
                           return row["lasttime"] && row["lasttime"].replace("T", " ");
                       },
-                      "targets": 4
+                      "targets": 5
                   }
 
             ],
             "aoColumns": [{
                 "mData": "id"
+            }, {
+                "mData": "username"
             }, {
                 "mData": "rolename"
             }, {
@@ -185,7 +179,7 @@
     }
     function retrieveData(sSource, aoData, fnCallback) {
         var rolename = $("#RoleName").val();
-
+        var username = $("#username").val();
 
         var iDisplayStart = Utils.getValueFromAOData(aoData, "iDisplayStart");
         var iDisplayLength = Utils.getValueFromAOData(aoData, "iDisplayLength");
@@ -196,6 +190,7 @@
             url: sSource,
             dataType: "json",
             data: {
+                username:username,
                 rolename: rolename,
                 istart: iDisplayStart,
                 ilen: iDisplayLength
@@ -216,66 +211,53 @@
 
     function initSelectData() {
         commonData.initSelectWithRoleName("RoleInfo", $("#RoleName"), '全部');
+        commonData.initSelectWithRoleName("RoleInfo", $("#save-role-name"));
     }
 
-    //获取所选bu 返回结果 example "1,2,45,123"
-    function getSelectPage() {
-        var selitems = $("#Role_Page_List input[type='checkbox']:checked");
-        if (selitems && selitems.length > 0) {
-            var authbus = "";
-            selitems.each(function () {
-                var $this = $(this);
-                authbus += $this.val() + ",";
-            });
-            authbus = authbus.substr(0, authbus.length - 1);
-            return authbus;
-        } else {
-            return "";
-        }
-    }
+
 
     function saveUserRole() {
-        var id = $("#save-role-id").val();
+        var id = $("#save-userrole-id").val();
         var rolename = $("#save-role-name").val();
-        var pages = getSelectPage();
+        var username = $("#save-username").val();
+        if (Utils.isEmpty(username)) {
+            Dialog.error("用户名不能为空！");
+            return;
+        }
         if (Utils.isEmpty(RoleName)) {
             Dialog.error("角色不能为空！");
             return;
         }
 
-        if (Utils.isEmpty(pages)) {
-            Dialog.error("请分配页面！");
-            return;
-        }
 
         BootstrapDialog.DEFAULT_TEXTS['OK'] = '确认';
         BootstrapDialog.DEFAULT_TEXTS['CANCEL'] = '取消';
         BootstrapDialog.DEFAULT_TEXTS['CONFIRM_TITLE'] = '确认';
-        BootstrapDialog.confirm('您确认保存角色数据吗？', function (result) {
+        BootstrapDialog.confirm('您确认保存用户角色数据吗？', function (result) {
             if (result) {
 
                 $.ajax({
                     type: "get",
                     contentType: "application/json; charset=utf-8",
-                    url: window.BASE_PATH + '/roleinfo/Save',
+                    url: window.BASE_PATH + '/UserRoleInfo/Save',
                     dataType: "json",
                     data: {
                         id: id,
                         rolename: rolename,
-                        page: pages
+                        username: username
                     },
                     success: function (resp) {
                         if (resp.result == 0) {
-                            $('#save-role-panel').modal('hide');
-                            Dialog.success("角色数据保存成功！");
+                            $('#save-userole-panel').modal('hide');
+                            Dialog.success("用户角色数据保存成功！");
                             var currentPage = parseInt($("#pclist_paginate li.active a").text()) - 1;
                             $("#pclist").dataTable().fnPageChange(currentPage, true);
                         } else {
-                            Dialog.error("角色数据保存失败！");
+                            Dialog.error("用户角色数据保存失败！");
                         }
                     },
                     error: function (resp) {
-                        Dialog.error("角色数据保存失败！");
+                        Dialog.error("用户角色数据保存失败！");
                     }
                 });
             } else {

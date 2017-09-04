@@ -182,6 +182,7 @@
     <Compile Include="Authorize\AuthorizeFilterAttribute.cs" />
     <Compile Include="Bussiness\monitor.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\UserRoleInfoController.cs" />
     <Compile Include="Controllers\UserInfoController.cs" />
     <Compile Include="Controllers\RoleInfoController.cs" />
     <Compile Include="Controllers\MapController.cs" />
@@ -311,6 +312,7 @@
     <Content Include="Assets\sea-modules\app\map\index.js" />
     <Content Include="Assets\sea-modules\app\roleinfo\index.js" />
     <Content Include="Assets\sea-modules\app\userinfo\index.js" />
+    <Content Include="Assets\sea-modules\app\userroleinfo\index.js" />
     <Content Include="Assets\sea-modules\extend\bootstrapdialog\3.3.2\bootstrap-dialog.css" />
     <Content Include="Assets\sea-modules\extend\bootstrapdialog\3.3.2\bootstrap-dialog.js" />
     <Content Include="Assets\sea-modules\extend\bootstrap\3.3.2\css\bootstrap.css" />
@@ -434,6 +436,7 @@
     <Content Include="Views\Map\map2.cshtml" />
     <Content Include="Views\RoleInfo\Index.cshtml" />
     <Content Include="Views\UserInfo\Index.cshtml" />
+    <Content Include="Views\UserRoleInfo\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
