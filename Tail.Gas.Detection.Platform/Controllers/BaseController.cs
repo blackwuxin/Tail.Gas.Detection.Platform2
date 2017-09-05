@@ -104,22 +104,29 @@ url.Contains("/importcarinfo") ? activeClass : "", ApplicationPath));
                 sbMenus.Append(string.Format("<li role='presentation' {0}><a href='{1}/carstatusinfo/download' target=''>车辆状态下载</a></li>",
                  url.Contains("/carstatusinfo/download") ? activeClass : "", ApplicationPath));
             }
-            if (page.Contains("用户管理"))
+            if (page.Contains("人员权限管理"))
             {
-                sbMenus.Append(string.Format("<li role='presentation' {0}><a href='{1}/userinfo/index' target=''>用户管理</a></li>",
-                    url.Contains("/userinfo/index") ? activeClass : "", ApplicationPath));
+                sbMenus.Append(string.Format(@"<li role='presentation' {0} class='dropdown'>
+                    <a href='#' class='dropdown-toggle' data-toggle='dropdown'>人员权限管理 <b class='caret'></b></a>
+                    <ul class='dropdown-menu' style='background-color: #337ab7;'>
+                        <li><a href='{1}/userinfo/index' target='' style='color: #fff;'>用户管理</a></li>
+                        <li><a href='{2}/roleinfo/index' target='' style='color: #fff;'>角色管理</a></li>
+                        <li><a href='{3}/userroleinfo/index' target='' style='color: #fff;'>用户角色管理</a></li>
+                    </ul></li>",
+                    (url.Contains("/userinfo/index") || url.Contains("/roleinfo/index") || url.Contains("/userroleinfo/index")) ? activeClass : "", ApplicationPath, ApplicationPath, ApplicationPath));
+
             }
 
-            if (page.Contains("角色管理"))
-            {
-                sbMenus.Append(string.Format("<li role='presentation' {0}><a href='{1}/roleinfo/index' target=''>角色管理</a></li>",
-                   url.Contains("/roleinfo/index") ? activeClass : "", ApplicationPath));
-            }
-            if (page.Contains("用户角色管理"))
-            {
-                sbMenus.Append(string.Format("<li role='presentation' {0}><a href='{1}/userroleinfo/index' target=''>用户角色管理</a></li>",
-                    url.Contains("/userroleinfo/index") ? activeClass : "", ApplicationPath));
-            }
+            //if (page.Contains("角色管理"))
+            //{
+            //    sbMenus.Append(string.Format("<li role='presentation' {0}><a href='{1}/roleinfo/index' target=''>角色管理</a></li>",
+            //       url.Contains("/roleinfo/index") ? activeClass : "", ApplicationPath));
+            //}
+            //if (page.Contains("用户角色管理"))
+            //{
+            //    sbMenus.Append(string.Format("<li role='presentation' {0}><a href='{1}/userroleinfo/index' target=''>用户角色管理</a></li>",
+            //        url.Contains("/userroleinfo/index") ? activeClass : "", ApplicationPath));
+            //}
 
   //          if (!url.Contains("home")&& !url.Equals("/myapp"))
   //          {
@@ -159,21 +166,22 @@ url.Contains("/importcarinfo") ? activeClass : "", ApplicationPath));
         /// <returns></returns>
         private string GetToolKitString()
         {
-            string url = Request.RawUrl.ToLower();
 
-            if (!url.Contains("home") && !url.Equals("/myapp"))
-             {
-                    StringBuilder sbToolKit = new StringBuilder();
-                    sbToolKit.Append(string.Format("<a id=\"logout\" href=\"javascript:;\" class=\"hd-toolkit-item\"><i class=\"icon-user icon-white\"></i>注销</a>"));
+            if (System.Web.HttpContext.Current.Session["username"] != null)
+            {
+                StringBuilder sbToolKit = new StringBuilder();
+                sbToolKit.Append(string.Format("<a id=\"logout\" href=\"javascript:;\" class=\"hd-toolkit-item\"><i class=\"icon-user icon-white\"></i>注销</a>"));
 
-                    string script = @"seajs.use('jquery', function($){
+                string script = @"seajs.use('jquery', function($){
                                             $('.hd-toolkit-item').remove(); 
                                             $('.hd-toolkit').prepend('" + sbToolKit.ToString() + "'); })";
 
-                    return script;
-             }else{
-                 return "";
-             }
+                return script;
+            }
+            else
+            {
+                return "";
+            }
 
         
         }

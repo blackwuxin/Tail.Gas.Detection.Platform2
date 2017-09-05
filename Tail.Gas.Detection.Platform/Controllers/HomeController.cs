@@ -17,13 +17,17 @@ namespace Tail.Gas.Detection.Platform.Controllers
         {
             if (System.Web.HttpContext.Current.Session["username"] != null)
             {
-                return RedirectToAction("index","carstatusinfo");
+                return RedirectToAction("index2","home");
             }
             else
             {
                 return View();
             }
             
+        }
+        public ActionResult Index2()
+        {
+             return View();
         }
         public ActionResult Forbidden()
         {

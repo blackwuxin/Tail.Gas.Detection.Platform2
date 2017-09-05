@@ -63,7 +63,7 @@
 				},
 				success: function (resp) {
 					if (resp.result ==0) {
-						window.location.href =window.BASE_PATH+"/carstatusinfo/index";
+						window.location.href =window.BASE_PATH+"/home/index2";
 					} else {
 						Dialog.error("账号密码或类型错误，请重试！");
 					}

@@ -393,18 +393,36 @@ ul, li {
 		color: #FFFFFF;
 	}
 
-.nav > li > a:focus, .nav > li > a:hover {
+.nav > li >.dropdown-menu> a:focus, .nav > li >.dropdown-menu > a:hover {
 	background-color: #548DC0;
 	color: #FFFFFF;
+}
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+	color: #fff;
+	background-color: #1C5E96;
 }
 
 .nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
 	color: #fff;
 	background-color: #1C5E96;
 }
+.nav .open > a, .nav .open > a:hover, .nav .open > a:focus{
+    	color: #fff;
+	background-color: #1C5E96;
+}
+.open > .dropdown-toggle.btn-default {
+    	color: #fff;
+	background-color: #1C5E96;
 
+}
 .letter-editor-border {
     border:1px dashed;
     padding:8px;
     margin-top:8px;
+}
+
+.nav > li > a:focus, .nav > li > a:hover {
+	background-color: #548DC0;
+	color: #FFFFFF;
 }

@@ -19,14 +19,14 @@
             table.fnDraw();
         });
 
-        interval = setInterval(function () {
-            if ($("#pclist_next").attr("class") && $("#pclist_next").attr("class").indexOf("disabled") > -1) {
-                table.fnPageChange(0);
-            }
-            else {
-                table.fnPageChange('next');
-            }
-        }, timems);
+        //interval = setInterval(function () {
+        //    if ($("#pclist_next").attr("class") && $("#pclist_next").attr("class").indexOf("disabled") > -1) {
+        //        table.fnPageChange(0);
+        //    }
+        //    else {
+        //        table.fnPageChange('next');
+        //    }
+        //}, timems);
         $("#autoscroll").change(function () {
             if ($("#autoscroll").prop('checked')) {
                 interval = setInterval(function () {

@@ -437,6 +437,7 @@
     <Content Include="Views\RoleInfo\Index.cshtml" />
     <Content Include="Views\UserInfo\Index.cshtml" />
     <Content Include="Views\UserRoleInfo\Index.cshtml" />
+    <Content Include="Views\Home\Index2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
