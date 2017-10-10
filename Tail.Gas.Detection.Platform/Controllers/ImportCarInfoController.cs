@@ -44,8 +44,8 @@ namespace Tail.Gas.Detection.Platform.Controllers
                var file = Request.Files[0];
                filepath = System.AppDomain.CurrentDomain.BaseDirectory + Guid.NewGuid() + ".xls";
                file.SaveAs(filepath);
-               //string connString = "server = (local); uid = sa; pwd = sa; database = cardb";
-               string connString = "server = 223.167.85.2,45118; uid = sa; pwd = sa; database = cardb";
+               string connString = "server = (local); uid = sa; pwd = sa; database = cardb";
+               //string connString = "server = 103.36.173.167,1433; uid = sa; pwd = sa; database = cardb";
                TransferData(filepath, "CarInfo", connString);
                joResult["result"] = 0;
             }
@@ -87,9 +87,10 @@ namespace Tail.Gas.Detection.Platform.Controllers
                         {
                             sqlRevdBulkCopy.ColumnMappings.Add(dt.Columns[i].ColumnName, dt.Columns[i].ColumnName);
                         }
+                        sqlRevdBulkCopy.BulkCopyTimeout = 180;
                         //sqlRevdBulkCopy.ColumnMappings.Add("Data_LastChangeTime", DateTime.Now.ToString());
                         sqlRevdBulkCopy.WriteToServer(dt);//数据导入数据库  
-
+                       
                         sqlRevdBulkCopy.Close();//关闭连接  
                     }  
 
