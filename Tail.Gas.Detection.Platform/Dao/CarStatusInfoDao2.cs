@@ -88,7 +88,7 @@ namespace Tail.Gas.Detection.Platform.Dao
                         joRow["SystemStatus"] = item.SystemStatus;
                         joRow["Data_LastChangeTime"] = String.Format("{0:yyyy-MM-dd HH:mm}", item.Data_LastChangeTime);
                         joRow["EngineSpeed"] = item.EngineSpeed;
-
+                        joRow["ModifiedTime"] = item.ModifiedTime;
 
                         //if ("豫AC8760,豫AR0038,豫AL1098".IndexOf(item.CarNo) != -1)
                         //{
@@ -174,6 +174,7 @@ namespace Tail.Gas.Detection.Platform.Dao
                         joRow["SystemStatus"] = item.SystemStatus;
                         joRow["Data_LastChangeTime"] = item.Data_LastChangeTime;
                         joRow["EngineSpeed"] = item.EngineSpeed;
+                        joRow["ModifiedTime"] = item.ModifiedTime;
                         
                         //  if ("豫AC8760,豫AR0038,豫AL1098".IndexOf(item.CarNo) != -1)
                         //{
@@ -469,6 +470,9 @@ namespace Tail.Gas.Detection.Platform.Dao
             public decimal? SensorNum { get; set; }
             public int? SystemStatus { get; set; }
             public DateTime? Data_LastChangeTime { get; set; }
+
+             public DateTime? ModifiedTime { get; set; }
+  
             public decimal? EngineSpeed { get; set; }
 
             public decimal? PositionXDegree { get; set; }
@@ -481,10 +485,10 @@ namespace Tail.Gas.Detection.Platform.Dao
 
 //        private const string CTE_SQL_LIST = @"WITH CTE AS (select  ROW_NUMBER() OVER(ORDER BY a.no ASC ) as RowNumber, b.CarNo,a.Color,a.Category,a.Belong,b.TemperatureBefore,b.SensorNum,b.SystemStatus,b.Data_LastChangeTime from (select *,ROW_NUMBER() over(partition by carno order by Data_LastChangeTime desc) rn from CarStatusInfo) b ,carinfo a 
 //                                              where b.rn<=1 and a.no = b.carno and a.no in('豫AC8760','豫AR0038','豫AL1098') {0})";
-        private const string CTE_SQL_LIST = @"WITH CTE AS (select  ROW_NUMBER() OVER(ORDER BY a.no ASC ) as RowNumber, b.CarNo,a.Color,a.Category,a.Belong,b.TemperatureBefore,b.TemperatureAfter,b.SensorNum,b.SystemStatus,b.Data_LastChangeTime,b.EngineSpeed from (select *,ROW_NUMBER() over(partition by carno order by Data_LastChangeTime desc) rn from CarStatusInfo) b ,carinfo a 
+        private const string CTE_SQL_LIST = @"WITH CTE AS (select  ROW_NUMBER() OVER(ORDER BY a.no ASC ) as RowNumber, b.CarNo,a.Color,a.Category,a.Belong,a.ModifiedTime,b.TemperatureBefore,b.TemperatureAfter,b.SensorNum,b.SystemStatus,b.Data_LastChangeTime,b.EngineSpeed from (select *,ROW_NUMBER() over(partition by carno order by Data_LastChangeTime desc) rn from CarStatusInfo) b ,carinfo a 
                                               where b.rn<=1 and a.no = b.carno  {0})";
         //private const string SQL_LIST_FROM_CTE = "SELECT CarNo,Color,Category,Belong,TemperatureBefore,SensorNum,SystemStatus,Data_LastChangeTime from CTE where rownumber in	( select max(rownumber) as rownumber  from CTE group by carno) and RowNumber  BETWEEN @from AND @end ";
-        private const string SQL_LIST_FROM_CTE = "SELECT CarNo,Color,Category,Belong,TemperatureBefore,TemperatureAfter,SensorNum,SystemStatus,Data_LastChangeTime,EngineSpeed from CTE where  RowNumber  BETWEEN @from AND @end ";
+        private const string SQL_LIST_FROM_CTE = "SELECT CarNo,Color,Category,Belong,TemperatureBefore,TemperatureAfter,SensorNum,SystemStatus,Data_LastChangeTime,EngineSpeed,ModifiedTime from CTE where  RowNumber  BETWEEN @from AND @end ";
         private const string SQL_COUNT = @"SELECT COUNT(DISTINCT carno) AS cnt FROM CTE ";
 
         private const string SQL_MAP = @"  WITH CTE AS (select  ROW_NUMBER() OVER(ORDER BY a.no ASC ) as RowNumber,

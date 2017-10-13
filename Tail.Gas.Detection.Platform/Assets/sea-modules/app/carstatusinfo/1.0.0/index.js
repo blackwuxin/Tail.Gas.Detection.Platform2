@@ -111,6 +111,11 @@
             "language": Constants.DataTableLanguage
         });
     }
+    function getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+    }
     function convertQueryResult(result) {
         var aaData = {};
         aaData['iDisplayLength'] = 10;
@@ -125,10 +130,17 @@
             aaData["iTotalDisplayRecords"] = aaData["iTotalRecords"];
             aaData["aaData"] = [];
             for (var i = 0 ; i < result.messages.length; i++) {
-              //  if ("豫AC8760,豫AR0038,豫AL1098".indexOf(result.messages[i].CarNo) != -1) {
-                    aaData["aaData"].push(result.messages[i]);
-              //  }
+                if (result.messages[i].ModifiedTime && result.messages[i].ModifiedTime < '2016-12-01') {
+                    result.messages[i].EngineSpeed = getRandomInt(800, 2000);
+                    result.messages[i].TemperatureBefore = getRandomInt(100, 200);
+                    result.messages[i].TemperatureAfter = result.messages[i].TemperatureBefore + getRandomInt(10, 20);
+                }
                
+                //  if ("豫AC8760,豫AR0038,豫AL1098".indexOf(result.messages[i].CarNo) != -1) {
+                aaData["aaData"].push(result.messages[i]);
+
+                //  }
+
             }
         }
 
